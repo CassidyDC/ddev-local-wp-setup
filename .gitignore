@@ -1,24 +1,6 @@
 # Ignore development directories
-/.vscode
 /node_modules
-/phpstan
 /vendor
-
-# Ignore development files
-/.editorconfig
-/.markdownlint-cli2.jsonc
-/.prettierignore
-/.shellcheckrc
-/composer.json
-/composer.lock
-/eslint.config.js
-/lefthook.yml
-/package-lock.json
-/package.json
-/phpcs.xml
-/phpstan.neon
-/prettier.config.js
-/stylelint.config.js
 
 # Ignore temp files
 /files/root/ddev-db-backup-script.sh
