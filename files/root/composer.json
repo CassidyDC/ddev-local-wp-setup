@@ -1,5 +1,5 @@
 {
-	"name": "cassidydc/ddev-wp-local-setup",
+	"name": "cassidydc/ddev-local-wp-setup",
 	"description": "CassidyDC default DDEV WordPress local setup.",
 	"version": "1.0.0",
 	"keywords": [
@@ -9,7 +9,7 @@
 		"wordpress",
 		"wp"
 	],
-	"homepage": "https://github.com/CassidyDC/ddev-wp-local-setup/blob/main/README.md",
+	"homepage": "https://github.com/CassidyDC/ddev-local-wp-setup/blob/main/README.md",
 	"license": "MIT",
 	"authors": [
 		{
@@ -22,7 +22,7 @@
 		"php": ">=8.3"
 	},
 	"support": {
-		"issues": "https://github.com/CassidyDC/ddev-wp-local-setup/issues"
+		"issues": "https://github.com/CassidyDC/ddev-local-wp-setup/issues"
 	},
 	"require-dev": {
 		"roots/wordpress": "*"

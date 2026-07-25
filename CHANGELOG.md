@@ -10,7 +10,7 @@
 
 -   Moved project repo from `https://github.com/jacobcassidy` to `https://github.com/CassidyDC`.
 -   Refactored package structure.
--   Renamed package from `ddev-local-wordpress-script` to `ddev-wp-local-setup`.
+-   Renamed package from `ddev-local-wordpress-script` to `ddev-local-wp-setup`.
 -   Updated the install script to create project config files in the `/wp-content` directory, instead of the server root.
 
 ## [2.2.4] - 2025-10-19
@@ -25,7 +25,7 @@
 
 ## [2.2.3] - 2025-10-18
 
--   Replaced `ddev-wp-setup-script` text with `ddev-wp-local-setup`
+-   Replaced `ddev-wp-setup-script` text with `ddev-local-wp-setup`
 
 ## [2.2.2] - 2025-10-18
 

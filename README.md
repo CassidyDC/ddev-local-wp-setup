@@ -3,7 +3,7 @@
 This installation script automatically sets up a development Docker server with DDEV and installs a WordPress site with clean defaults on that server.
 
 > [!NOTE]
-> The following software must be installed for the `ddev-wp-local-setup` package to work:
+> The following software must be installed for the `ddev-local-wp-setup` package to work:
 >
 > 1. [DDEV](https://ddev.com/) - Install with homebrew: `brew install ddev/ddev/ddev`.
 > 2. [Orbstack](https://orbstack.dev/) (or another Docker provider) - Install with homebrew: `brew install orbstack docker`.
@@ -12,10 +12,10 @@ This installation script automatically sets up a development Docker server with 
 
 ## Quick Start
 
-1. Clone this [repo](https://github.com/cassidydc/ddev-wp-local-setup) to your (preferably empty) project's root directory with the command: **`git clone git@github.com:cassidydc/ddev-wp-local-setup.git`**
-2. Customize the script's configuration settings at: _ddev-wp-local-setup/config.sh_
-3. Run the installation script in your project's root directory with the command: **`ddev-wp-local-setup/install.sh`**
-4. Delete the _ddev-wp-local-setup_ directory after successfully running the installation script
+1. Clone this [repo](https://github.com/cassidydc/ddev-local-wp-setup) to your (preferably empty) project's root directory with the command: **`git clone git@github.com:cassidydc/ddev-local-wp-setup.git`**
+2. Customize the script's configuration settings at: _ddev-local-wp-setup/config.sh_
+3. Run the installation script in your project's root directory with the command: **`ddev-local-wp-setup/install.sh`**
+4. Delete the _ddev-local-wp-setup_ directory after successfully running the installation script
 
 ## Features
 
@@ -37,4 +37,4 @@ This script automatically sets up the following:
 
 ## Found an Issue?
 
-If you come across any issues, please report them in the [GitHub Repo](https://github.com/cassidydc/ddev-wp-local-setup/issues).
+If you come across any issues, please report them in the [GitHub Repo](https://github.com/cassidydc/ddev-local-wp-setup/issues).

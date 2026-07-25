@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # --- DIRECTORIES --- #
-export ROOT_DIR='ddev-wp-local-setup'
+export ROOT_DIR='ddev-local-wp-setup'
 export FILES_DIR="${ROOT_DIR}/files"
 export SCRIPTS_DIR="${ROOT_DIR}/scripts"
 

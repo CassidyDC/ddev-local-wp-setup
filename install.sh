@@ -193,4 +193,4 @@ echo '' # new line
 # shellcheck source=scripts/wp-install.sh
 source "${SCRIPTS_DIR}/wp-install.sh"
 
-printf "${MAGENTA}${BOLD}The ddev-wp-local-setup installation process is all finished! If no errors were present, you may delete the /ddev-wp-local-setup directory.${RESET}\n\n"
+printf "${MAGENTA}${BOLD}The ddev-local-wp-setup installation process is all finished! If no errors were present, you may delete the /ddev-local-wp-setup directory.${RESET}\n\n"
