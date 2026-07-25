@@ -77,14 +77,14 @@ else
   printf "${BLACK}The wp-content/plugins directory already exists. Skipping creation.${RESET}\n\n"
 fi
 
-# Install CassidyDC Toolset's 'wp-content' config files
-if $INSTALL_WP_DEV_TOOLSET; then
-  printf "${BLUE}Installing CassidyDC Toolset's \"wp-content\" config files...${RESET}\n"
+# Install CassidyDC Toolset Dev WP's 'wp-content' config files
+if $INSTALL_TOOLSET_DEV_WP; then
+  printf "${BLUE}Installing CassidyDC Toolset Dev WP's \"wp-content\" config files...${RESET}\n"
 
   # Clone with error handling
-  if git clone --depth 1 --filter=blob:none --sparse git@github.com:CassidyDC/wp-dev-toolset.git wp-dev-toolset-temp; then
+  if git clone --depth 1 --filter=blob:none --sparse git@github.com:CassidyDC/toolset-dev-wp.git toolset-dev-wp-temp; then
     if (
-      cd wp-dev-toolset-temp || exit 1
+      cd toolset-dev-wp-temp || exit 1
       git sparse-checkout set files/wp-content
 
       # Copy with error handling
@@ -95,25 +95,25 @@ if $INSTALL_WP_DEV_TOOLSET; then
         exit 1
       fi
     ); then
-      rm -rf wp-dev-toolset-temp
+      rm -rf toolset-dev-wp-temp
 
       # Install npm packages for toolset
-      printf "${BLUE}Installing CassidyDC Toolset's NPM packages in wp-content directory...${RESET}\n"
+      printf "${BLUE}Installing CassidyDC Toolset Dev WP's NPM packages in wp-content directory...${RESET}\n"
       if (
         cd wp-content || exit 1
         npm install
       ); then
         echo '' # new line
       else
-        printf "${BRIGHT_RED}ERROR: Failed to install CassidyDC Toolset's NPM packages in wp-content directory.${RESET}\n\n"
+        printf "${BRIGHT_RED}ERROR: Failed to install CassidyDC Toolset Dev WP's NPM packages in wp-content directory.${RESET}\n\n"
         exit 1
       fi
     else
-      rm -rf wp-dev-toolset-temp
+      rm -rf toolset-dev-wp-temp
       exit 1
     fi
   else
-    printf "${BRIGHT_RED}ERROR: Failed to clone CassidyDC Toolset repository.${RESET}\n\n"
+    printf "${BRIGHT_RED}ERROR: Failed to clone CassidyDC Toolset Dev WP repository.${RESET}\n\n"
     exit 1
   fi
 fi
