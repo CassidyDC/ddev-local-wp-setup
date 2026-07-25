@@ -3,4 +3,4 @@
 /vendor
 
 # Ignore temp files
-/files/root/ddev-db-backup-script.sh
+docs/dev/reference/v2.4.0/files/root/ddev-db-backup-script.sh
