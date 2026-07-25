@@ -1,4 +1,11 @@
-# Changelog for `ddev-wp-local-setup`
+# Changelog for `ddev-local-wp-setup`
+
+## [2.4.0] - 2026-07-25
+
+### Changed
+
+-   Updated name from `ddev-wp-local-setup` to `ddev-local-wp-setup`.
+-   Updated name of `cassidydc-toolset` to `toolset-dev-wp`.
 
 ## [2.3.0] - 2026-03-20
 
