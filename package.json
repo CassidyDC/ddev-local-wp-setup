@@ -1,0 +1,73 @@
+{
+  "name": "ddev-local-wp-setup",
+  "displayName": "DDEV Local WP Setup",
+  "version": "1.0.0",
+  "description": "Sets up a local WordPress development server with DDEV.",
+  "author": {
+    "name": "CassidyDC",
+    "email": "hello@cassidydc.com",
+    "url": "https://cassidydc.com"
+  },
+  "bin": {
+    "ddev-wp": "./index.js"
+  },
+  "files": [
+    "index.js",
+    "commands",
+    "utils"
+  ],
+  "main": "index.js",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CassidyDC/ddev-local-wp-setup"
+  },
+  "bugs": {
+    "url": "https://github.com/cassidydc/ddev-local-wp-setup/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "CassidyDC",
+    "DDEV",
+    "development server",
+    "local server",
+    "WordPress"
+  ],
+  "dependencies": {
+    "chalk": "^5.6.2",
+    "enquirer": "^2.4.1",
+    "figures": "^6.1.0",
+    "meow": "^14.1.0",
+    "ora": "^9.4.1",
+    "string-width": "^8.2.2"
+  },
+  "devDependencies": {
+    "@eslint/compat": "^2.1.0",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.0",
+    "eslint-plugin-import-x": "^4.17.1",
+    "globals": "^17.7.0",
+    "lefthook": "^2.1.10",
+    "markdownlint-cli2": "^0.23.1",
+    "prettier": "^3.9.6",
+    "prettier-plugin-multiline-arrays": "^4.1.10"
+  },
+  "overrides": {
+    "markdownlint-cli2": {
+      "js-yaml": "5.2.2"
+    }
+  },
+  "scripts": {
+    "check": "npx prettier . --check",
+    "format": "npx prettier . --write",
+    "lint:docs": "npx markdownlint-cli2 \"**/*.md\"",
+    "lint:docs:fix": "npx markdownlint-cli2 \"**/*.md\" --fix",
+    "lint:scripts": "npx eslint",
+    "lint:scripts:fix": "npx eslint --fix",
+    "test": "node test.js"
+  },
+  "allowScripts": {
+    "lefthook@2.1.10": true,
+    "unrs-resolver@1.12.2": true
+  }
+}
