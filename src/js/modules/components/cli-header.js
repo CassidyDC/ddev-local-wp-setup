@@ -26,7 +26,7 @@ export function cliHeader(clear = true) {
     log(`└${"─".repeat(width + 2)}┘`);
   };
 
-  box([
+  return box([
     `${c.title(pkgJSON.displayName)} ${c.muted(`v${pkgJSON.version}`)}`,
     c.muted(`By ${pkgJSON.author.name} (${c.em(pkgJSON.author.url)})`),
   ]);
