@@ -34,7 +34,6 @@
   "dependencies": {
     "ansi-colors": "^4.1.3",
     "enquirer": "^2.4.1",
-    "figures": "^6.1.0",
     "string-width": "^8.2.2",
     "yocto-spinner": "^1.2.2"
   },
