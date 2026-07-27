@@ -7,6 +7,10 @@
 import { argv } from "node:process";
 import { readFile } from "fs/promises";
 
+// Internal modules
+import { commands } from "./commands.js";
+import { flags } from "./flags.js";
+
 export const log = console.log;
 export const pkgJSON = JSON.parse(await readFile(new URL("../../../../package.json", import.meta.url), "utf-8"));
 
@@ -15,6 +19,30 @@ export const userFlags = sortArgv().flags;
 
 export const hasNoClearFlag = !!userFlags.find((flag) => flag === "no-clear" || flag === "nc");
 export const hasNoHeaderFlag = !!userFlags.find((flag) => flag === "no-header" || flag === "nh");
+
+export const allowedCommands = [];
+export const allowedLongCommands = [];
+export const allowedShortCommands = [];
+
+export const allowedFlags = [];
+export const allowedLongFlags = [];
+export const allowedShortFlags = [];
+
+(function getAllowedCommands() {
+  for (const [key, value] of Object.entries(commands)) {
+    allowedCommands.push([value.alias, key]);
+    allowedLongCommands.push(key);
+    allowedShortCommands.push(value.alias);
+  }
+})();
+
+(function getAllowedFlags() {
+  for (const [key, value] of Object.entries(flags)) {
+    allowedFlags.push([value.alias, key]);
+    allowedLongFlags.push(key);
+    allowedShortFlags.push(value.alias);
+  }
+})();
 
 /**
  * Sort Argv
