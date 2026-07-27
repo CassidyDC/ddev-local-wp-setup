@@ -2,21 +2,19 @@
   "name": "ddev-local-wp-setup",
   "displayName": "DDEV Local WP Setup",
   "version": "1.0.0",
-  "description": "Sets up a local WordPress development server with DDEV.",
+  "description": "Sets up a local WordPress development server with DDEV (including optional dev toolsets)",
   "author": {
     "name": "CassidyDC",
     "email": "hello@cassidydc.com",
     "url": "https://cassidydc.com"
   },
   "bin": {
-    "ddev-wp": "./index.js"
+    "ddev-wp": "./src/js/index.js"
   },
   "files": [
-    "index.js",
-    "commands",
-    "utils"
+    "src"
   ],
-  "main": "index.js",
+  "main": "src/js/index.js",
   "type": "module",
   "repository": {
     "type": "git",
@@ -34,19 +32,18 @@
     "WordPress"
   ],
   "dependencies": {
-    "chalk": "^5.6.2",
+    "ansi-colors": "^4.1.3",
     "enquirer": "^2.4.1",
     "figures": "^6.1.0",
-    "meow": "^14.1.0",
-    "ora": "^9.4.1",
-    "string-width": "^8.2.2"
+    "string-width": "^8.2.2",
+    "yocto-spinner": "^1.2.2"
   },
   "devDependencies": {
     "@eslint/compat": "^2.1.0",
     "@eslint/js": "^10.0.1",
     "eslint": "^10.8.0",
     "eslint-plugin-import-x": "^4.17.1",
-    "globals": "^17.7.0",
+    "globals": "^17.8.0",
     "lefthook": "^2.1.10",
     "markdownlint-cli2": "^0.23.1",
     "prettier": "^3.9.6",
