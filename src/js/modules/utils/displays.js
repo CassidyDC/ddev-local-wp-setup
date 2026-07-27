@@ -3,24 +3,30 @@
  * @module utils/displays
  */
 
-import { cliHeader } from "../components/index.js";
+// Internal modules
+import { cliDebugInfo, cliHeader, cliHelpMenu, cliVersion } from "../components/index.js";
 import { hasNoClearFlag, hasNoHeaderFlag } from "./helpers.js";
-import { helpFlag, versionFlag } from "../flags/index.js";
+
 /**
  * Prints the CLI header
  */
 export const displayHeader = () => {
   const clear = !hasNoClearFlag;
-  // Display the header, unless the --no-header flag was used.
   if (!hasNoHeaderFlag) cliHeader(clear);
+  else if (clear) console.clear();
 };
+
+/**
+ * Prints the CLI debug information.
+ */
+export const displayDebugInfo = () => cliDebugInfo();
 
 /**
  * Prints the CLI help information.
  */
-export const displayHelp = () => helpFlag.help.exec();
+export const displayHelp = () => cliHelpMenu();
 
 /**
  * Prints the CLI version without the header.
  */
-export const displayVersion = () => versionFlag.version.exec();
+export const displayVersion = () => cliVersion();
