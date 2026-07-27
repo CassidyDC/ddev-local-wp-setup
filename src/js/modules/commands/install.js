@@ -3,11 +3,15 @@
  * @module commands/install
  */
 
-// Internal Modules
-import { collectSetupSettings } from "../configs/settings.js";
-import { displayHeader } from "../utils/displays.js";
-import { installSetup } from "../utils/install-setup.js";
+import { c } from "../utils/styles.js";
+import { log } from "../utils/helpers.js";
 
-displayHeader();
-collectSetupSettings();
-installSetup();
+export function runInstallationWizard() {
+  log(c.heading(" Starting Installation Wizard... "));
+  collectSetupSettings();
+  installSetup();
+}
+
+async function collectSetupSettings() {}
+
+async function installSetup() {}
