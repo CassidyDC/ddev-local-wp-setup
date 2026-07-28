@@ -1,6 +1,6 @@
 /**
- * HELP MENU
- * @module components/cli-help-menu
+ * HELP INFO
+ * @module components/cli-help-info
  */
 
 // External dependencies
@@ -10,39 +10,45 @@ import stringWidth from "string-width";
 import { c } from "../utils/styles.js";
 import { log, pkgJSON } from "../utils/helpers.js";
 
-export function cliHelpMenu() {
+export function cliHelpInfo() {
   const commands = [
-    [`${c.info("i")}, ${c.info("install")}`, "Runs the DDEV Local WP Setup installer"],
+    [`${c.info("i")}, ${c.info("install")}`, `Runs the ${c.title("DDEV Local WP Setup")} installation wizard`],
   ];
 
   const flags = [
-    [`${c.flag("-d")}, ${c.flag("--debug")}`, "Runs the debugger"],
-    [`${c.flag("-h")}, ${c.flag("--help")}`, "Displays the help menu"],
+    [`${c.flag("-d")}, ${c.flag("--debug")}`, "Displays the debug information"],
+    [`${c.flag("-h")}, ${c.flag("--help")}`, "Displays the help information"],
     [`${c.flag("-v")}, ${c.flag("--version")}`, "Displays the version"],
-    [`${c.flag("-nc")}, ${c.flag("--no-clear")}`, "Stops the clearing of the console when running the command"],
-    [`${c.flag("-nh")}, ${c.flag("--no-header")}`, "Stops the display of the ddev-wp header when running the command"],
+    [`${c.flag("-nc")}, ${c.flag("--no-clear")}`, "Stops the clearing of the console when running a command"],
+    [
+      `${c.flag("-nh")}, ${c.flag("--no-header")}`,
+      `Stops the display of the ${c.em("ddev-wp")} header when running a command`,
+    ],
   ];
 
   const examples = [
     [`${c.property("npx ddev-wp")} ${c.info("install")}`, "Launches the installation wizard"],
-    [`${c.property("npx ddev-wp")} ${c.flag("-v -nh")}`, "Displays the ddev-wp version without the ddev-wp header"],
+    [
+      `${c.property("npx ddev-wp")} ${c.flag("-v")}`,
+      `Displays the ${c.em("ddev-wp")} version without the ${c.em("ddev-wp")} header`,
+    ],
   ];
 
   const allRows = [...commands, ...flags, ...examples];
   const columnWidth = Math.max(...allRows.map(([name]) => stringWidth(name)));
 
-  const helpText = `${c.heading(" Help ")}
+  const helpText = `${c.headingInfo(" Help Information ")}
 
 ${c.title("Purpose:")}
   ${pkgJSON.description}
 
 ${c.title("Usage:")}
-  ${c.property("ddev-wp")} ${c.info("<command>")} ${c.flag("[options]")}
+  ${c.property("ddev-wp")} ${c.info("<command>")} ${c.flag("[flags]")}
 
 ${c.title("Commands:")}
 ${formatRows(commands)}
 
-${c.title("Options:")}
+${c.title("Flags:")}
 ${formatRows(flags)}
 
 ${c.title("Examples:")}

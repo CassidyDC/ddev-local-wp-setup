@@ -4,14 +4,16 @@
  */
 
 // Internal Modules
-import { c } from "../utils/styles.js";
-import { allowedCommands, allowedFlags, log } from "../utils/helpers.js";
 import * as components from "./index.js";
 import * as displays from "../utils/displays.js";
+import { allowedCommands } from "../utils/commands.js";
+import { allowedFlags } from "../utils/flags.js";
+import { c } from "../utils/styles.js";
+import { log } from "../utils/helpers.js";
 // import * as flags from "../utils/flags.js";
 
 export function cliDebugInfo() {
-  log(`${c.heading(" Debug Information ")}`);
+  log(`${c.headingDebug(" Debug Information ")}`);
   log("");
 
   // Print available commands

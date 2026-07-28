@@ -7,7 +7,7 @@ import { c } from "../utils/styles.js";
 import { log } from "../utils/helpers.js";
 
 export function runInstallationWizard() {
-  log(c.heading(" Starting Installation Wizard... "));
+  log(c.headingInfo(" Starting Installation Wizard... "));
   collectSetupSettings();
   installSetup();
 }

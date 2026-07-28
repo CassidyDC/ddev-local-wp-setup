@@ -4,7 +4,8 @@
  */
 
 // Internal modules
-import { cliDebugInfo, cliHelpMenu, cliVersion } from "../components/index.js";
+import { cliDebugInfo, cliHelpInfo, cliVersion } from "../components/index.js";
+import { getAllowedArguments, getNonExistingArguments, userFlags } from "./helpers.js";
 
 export const flags = {
   debug: {
@@ -13,7 +14,7 @@ export const flags = {
   },
   help: {
     alias: "h",
-    exec: cliHelpMenu,
+    exec: cliHelpInfo,
   },
   "no-clear": {
     alias: "nc",
@@ -28,3 +29,8 @@ export const flags = {
     exec: cliVersion,
   },
 };
+
+export const allowedFlags = getAllowedArguments(flags, "flags")[0];
+export const allowedLongFlags = getAllowedArguments(flags, "flags")[1];
+export const allowedShortFlags = getAllowedArguments(flags, "flags")[2];
+export const userIncludedNonExistingFlags = getNonExistingArguments(allowedFlags, userFlags);
