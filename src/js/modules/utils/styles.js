@@ -5,9 +5,10 @@ c.theme({
   dark: c.dim.gray,
   disabled: c.gray,
   em: c.italic,
-  error: c.bgRed,
   flag: c.yellow,
-  heading: c.bgBlue,
+  headingInfo: c.bgBlue.bold,
+  headingDebug: c.bgYellow.bold,
+  headingError: c.bgRed.bold,
   info: c.cyan,
   muted: c.dim,
   primary: c.blue,
@@ -16,7 +17,7 @@ c.theme({
   success: c.green,
   title: c.bold,
   underline: c.underline,
-  warning: c.yellowBright,
+  warn: c.yellowBright,
 });
 
 export { c };
