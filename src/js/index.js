@@ -1,8 +1,14 @@
 #!/usr/bin/env node
 
-// Internal modules
-import { displayHeader } from "./modules/utils/displays.js";
-import { processArgs } from "./modules/utils/cli.js";
+/**
+ * INITIALIZE SCRIPT
+ */
+
+// Import components
+import { displayHeader } from "./modules/components/index.js";
+
+// Import utils
+import { processArgs } from "./modules/utils/helpers/index.js";
 
 displayHeader();
 processArgs();
