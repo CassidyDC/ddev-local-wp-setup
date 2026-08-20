@@ -3,7 +3,7 @@
  * @module components/displays/version
  */
 
-// Internal Modules
+// Import helpers
 import { log, pkgJSON } from "../../utils/helpers/index.js";
 
 /**

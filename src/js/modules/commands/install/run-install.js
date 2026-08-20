@@ -34,6 +34,8 @@ import { initWPSetup } from "../index.js";
  */
 
 export function runInstall() {
+  console.log("Running runInstall()");
+
   // const { dns, projectName, spatieRay, uploadDirs } = installConfig.ddev;
   // const { includeToolset, includeVscodeRecommend, includeVscodeWorkspace, initGit } = installConfig.devToolset;
   initWPSetup();

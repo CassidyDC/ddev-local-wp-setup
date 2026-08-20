@@ -10,6 +10,8 @@ import { installConfig } from "../../configs/index.js";
  * Runs the shell commands to install the local DDEV WordPress development server setup.
  */
 export function initWPSetup() {
+  console.log("Running initWPSetup()");
+
   const {
     customPluginSlug,
     customThemeSlug,

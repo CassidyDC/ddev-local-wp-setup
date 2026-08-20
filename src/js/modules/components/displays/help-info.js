@@ -6,7 +6,7 @@
 // Import external dependencies
 import stringWidth from "string-width";
 
-// Import utils
+// Import helpers
 import { c, log, pkgJSON } from "../../utils/helpers/index.js";
 
 /**

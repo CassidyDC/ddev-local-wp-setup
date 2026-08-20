@@ -6,7 +6,7 @@
 // Import components
 import * as components from "../../components/index.js";
 
-// Import utils
+// Import helpers
 import { allowedCommands, allowedFlags, c, log } from "../../utils/helpers/index.js";
 
 /**

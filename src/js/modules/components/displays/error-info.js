@@ -3,7 +3,7 @@
  * @module components/displays/error-info
  */
 
-// Import utils
+// Import helpers
 import {
   allowedCommands,
   allowedLongFlags,
