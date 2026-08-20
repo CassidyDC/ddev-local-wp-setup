@@ -1,5 +1,11 @@
-export { cliDebugInfo } from "./cli-debug-info.js";
-export { cliErrorInfo } from "./cli-error-info.js";
-export { cliHeader } from "./cli-header.js";
-export { cliHelpInfo } from "./cli-help-info.js";
-export { cliVersion } from "./cli-version.js";
+/**
+ * COMPONENTS INDEX
+ * @module components/index
+ */
+
+// Display Components
+export * from "./displays/debug-info.js";
+export * from "./displays/error-info.js";
+export * from "./displays/header.js";
+export * from "./displays/help-info.js";
+export * from "./displays/version.js";

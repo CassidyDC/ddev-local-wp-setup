@@ -1,15 +1,24 @@
 /**
- * CLI ERROR INFO
- * @module components/cli-error-info
+ * DISPLAY ERROR INFO
+ * @module components/displays/error-info
  */
 
-// Internal Modules
-import { allowedCommands } from "../utils/commands.js";
-import { allowedLongFlags, allowedShortFlags } from "../utils/flags.js";
-import { c } from "../utils/styles.js";
-import { log, userCommands } from "../utils/helpers.js";
+// Import utils
+import {
+  allowedCommands,
+  allowedLongFlags,
+  allowedShortFlags,
+  c,
+  log,
+  userCommands,
+} from "../../utils/helpers/index.js";
 
-export function cliErrorInfo(nonExistingCommands, nonExistingFlags) {
+/**
+ * Display Error Info
+ *
+ * Prints the CLI error information.
+ */
+export function displayErrorInfo(nonExistingCommands, nonExistingFlags) {
   const errors = [];
   const allowedCmds = allowedCommands.flat().join(", ");
   const nonExistingCmds = nonExistingCommands.join(", ");

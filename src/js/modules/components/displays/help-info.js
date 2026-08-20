@@ -1,16 +1,20 @@
 /**
- * HELP INFO
- * @module components/cli-help-info
+ * DISPLAY HELP INFO
+ * @module components/displays/help-info
  */
 
-// External dependencies
+// Import external dependencies
 import stringWidth from "string-width";
 
-// Internal Modules
-import { c } from "../utils/styles.js";
-import { log, pkgJSON } from "../utils/helpers.js";
+// Import utils
+import { c, log, pkgJSON } from "../../utils/helpers/index.js";
 
-export function cliHelpInfo() {
+/**
+ * Display Help Info
+ *
+ * Prints the CLI help information.
+ */
+export function displayHelpInfo() {
   const commands = [
     [`${c.info("i")}, ${c.info("install")}`, `Runs the ${c.title("DDEV Local WP Setup")} installation wizard`],
   ];
