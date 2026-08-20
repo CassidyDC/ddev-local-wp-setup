@@ -16,7 +16,7 @@ import {
   hasFlagHelp,
   hasFlagVersion,
   hasNoArguments,
-  hasMoreThanOneCommand,
+  hasMultiCommands,
   hasNonExistingCommands,
   hasNonExistingFlags,
   userIncludedNonExistingCommands,
@@ -25,7 +25,7 @@ import {
 
 export async function processArgs() {
   if (hasNoArguments) return displayHelpInfo();
-  if (hasMoreThanOneCommand || hasNonExistingCommands || hasNonExistingFlags)
+  if (hasMultiCommands || hasNonExistingCommands || hasNonExistingFlags)
     return displayErrorInfo(userIncludedNonExistingCommands, userIncludedNonExistingFlags);
   if (hasCommandInstall) return commandsConfig.install.exec();
   if (hasFlagHelp) return flagsConfig.help.exec();
