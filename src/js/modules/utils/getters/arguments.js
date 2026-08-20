@@ -1,27 +1,18 @@
 /**
- * HELPERS
- * @module utils/helpers
+ * ARGUMENT GETTERS
+ * @module utils/getters/arguments
  */
 
-// Node modules
+// Import node modules
 import { argv } from "node:process";
-import { readFile } from "fs/promises";
 
-export const log = console.log;
-export const pkgJSON = JSON.parse(await readFile(new URL("../../../../package.json", import.meta.url), "utf-8"));
-
-export const userCommands = sortArgv()[0];
-export const userFlags = sortArgv()[1];
-
-export const userIncludedNoClearFlag = !!userFlags.find((flag) => flag === "no-clear" || flag === "nc");
-export const userIncludedNoHeaderFlag = !!userFlags.find((flag) => flag === "no-header" || flag === "nh");
-
-export const isCommandless = userCommands.length === 0;
-export const isFlagless = userFlags.length === 0;
-
-export const userIncludedVersionFlagOnly =
-  isCommandless && userFlags.length === 1 && userFlags.find((flag) => flag === "version" || flag === "v");
-
+/**
+ * Get allowed command or flag arguments.
+ *
+ * @param {Record<string, { alias: string }>} args Object where each key is the long argument name and each value contains an alias.
+ * @param {"flags" | null} [type=null] When set to "flags", prefixes long names with "--" and aliases with "-".
+ * @returns {[string[][], string[], string[]]} A tuple containing all argument pairs, long arguments, and short arguments.
+ */
 export function getAllowedArguments(args, type = null) {
   const allArgs = [];
   const longArgs = [];
@@ -44,19 +35,27 @@ export function getAllowedArguments(args, type = null) {
   return [allArgs, longArgs, shortArgs];
 }
 
+/**
+ * Get user-provided arguments that are not in the allowed arguments list.
+ *
+ * @param {string[] | string[][]} allowedArgs Allowed argument names. Can be a flat array or nested pairs like [["-h", "--help"]].
+ *
+ * @param {string[]} userArgs Arguments provided by the user.
+ *
+ * @returns {string[]} User arguments that do not exist in the allowed arguments list.
+ */
 export function getNonExistingArguments(allowedArgs, userArgs) {
-  const nonExistingArgs = [];
-  nonExistingArgs.push(...userArgs.filter((arg) => !allowedArgs.flat().includes(arg)));
-  return nonExistingArgs;
+  return userArgs.filter((arg) => !allowedArgs.flat().includes(arg));
 }
 
 /**
- * Sort Argv
+ * Get User Arguments
+ *
  * Sorts the node:process argv results from the CLI init
  *
  * @returns {object} The commands and flags used in CLI
  */
-function sortArgv() {
+export function getUserArguments() {
   const commands = [];
   const flags = [];
 
