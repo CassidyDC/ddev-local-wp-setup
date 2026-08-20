@@ -30,7 +30,7 @@
 1. set_project_type()
 2. set_custom_theme_slug()
 3. set_custom_plugin_slug()
-4. set_include_starter_theme_files()
+4. set_include_custom_theme_starter_files()
 5. set_include_toolset_theme_dev()
 6. set_include_toolset_plugin_dev()
 7. set_wp_env_type()
