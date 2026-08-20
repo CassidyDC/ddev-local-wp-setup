@@ -10,7 +10,7 @@
 // import { installConfig } from "../../configs/index.js";
 
 // Import command modules
-import { initWPSetup } from "./index.js";
+import { initWPSetup } from "../index.js";
 
 // import { c } from "../utils/styles.js";
 // import { log } from "../utils/helpers.js";
