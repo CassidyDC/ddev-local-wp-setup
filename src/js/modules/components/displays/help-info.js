@@ -6,6 +6,9 @@
 // Import external dependencies
 import stringWidth from "string-width";
 
+// Import configs
+import { commandsConfig, flagsConfig } from "../../configs/index.js";
+
 // Import helpers
 import { c, log, pkgJSON } from "../../utils/helpers/index.js";
 
@@ -15,22 +18,31 @@ import { c, log, pkgJSON } from "../../utils/helpers/index.js";
  * Prints the CLI help information.
  */
 export function displayHelpInfo() {
-  const commands = [
-    [`${c.info("i")}, ${c.info("install")}`, `Runs the ${c.title("DDEV Local WP Setup")} installation wizard`],
-  ];
+  const createFormattedRowsFromConfig = (config, configType) => {
+    let formattedRows = [];
 
-  const flags = [
-    [`${c.flag("-d")}, ${c.flag("--debug")}`, "Displays the debug information"],
-    [`${c.flag("-h")}, ${c.flag("--help")}`, "Displays the help information"],
-    [`${c.flag("-v")}, ${c.flag("--version")}`, "Displays the version"],
-    [`${c.flag("-nc")}, ${c.flag("--no-clear")}`, "Stops the clearing of the console when running a command"],
-    [
-      `${c.flag("-nh")}, ${c.flag("--no-header")}`,
-      `Stops the display of the ${c.em("ddev-wp")} header when running a command`,
-    ],
-  ];
+    for (const [key, value] of Object.entries(config)) {
+      const desc = value.description;
+      let longName, shortName;
 
-  const examples = [
+      if (configType === "flags") {
+        longName = c.flag(`--${key}`);
+        shortName = c.flag(`-${value.alias}`);
+      } else {
+        longName = c.info(key);
+        shortName = c.info(value.alias);
+      }
+
+      formattedRows.push([`${shortName}, ${longName}`, desc]);
+    }
+
+    return formattedRows;
+  };
+
+  const commandRows = createFormattedRowsFromConfig(commandsConfig, "commands");
+  const flagRows = createFormattedRowsFromConfig(flagsConfig, "flags");
+
+  const exampleRows = [
     [`${c.property("npx ddev-wp")} ${c.info("install")}`, "Launches the installation wizard"],
     [
       `${c.property("npx ddev-wp")} ${c.flag("-v")}`,
@@ -38,9 +50,8 @@ export function displayHelpInfo() {
     ],
   ];
 
-  const allRows = [...commands, ...flags, ...examples];
+  const allRows = [...commandRows, ...flagRows, ...exampleRows];
   const columnWidth = Math.max(...allRows.map(([name]) => stringWidth(name)));
-
   const helpText = `${c.headingInfo(" Help Information ")}
 
 ${c.title("Purpose:")}
@@ -50,13 +61,13 @@ ${c.title("Usage:")}
   ${c.property("ddev-wp")} ${c.info("<command>")} ${c.flag("[flags]")}
 
 ${c.title("Commands:")}
-${formatRows(commands)}
+${formatRows(commandRows)}
 
 ${c.title("Flags:")}
-${formatRows(flags)}
+${formatRows(flagRows)}
 
 ${c.title("Examples:")}
-${formatRows(examples)}
+${formatRows(exampleRows)}
 `;
 
   function padRight(value, targetWidth) {
