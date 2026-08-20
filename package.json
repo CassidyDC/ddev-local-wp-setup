@@ -2,7 +2,7 @@
   "name": "ddev-local-wp-setup",
   "displayName": "DDEV Local WP Setup",
   "version": "1.0.0",
-  "description": "Sets up a local WordPress development server with DDEV (including optional dev toolsets)",
+  "description": "Sets up a local WordPress development server with DDEV (including optional code linting and formatting config files)",
   "author": {
     "name": "CassidyDC",
     "email": "hello@cassidydc.com",
@@ -40,18 +40,13 @@
   "devDependencies": {
     "@eslint/compat": "^2.1.0",
     "@eslint/js": "^10.0.1",
-    "eslint": "^10.8.0",
+    "eslint": "^10.8.1",
     "eslint-plugin-import-x": "^4.17.1",
-    "globals": "^17.8.0",
+    "globals": "^17.11.0",
     "lefthook": "^2.1.10",
-    "markdownlint-cli2": "^0.23.1",
+    "markdownlint-cli2": "^0.23.2",
     "prettier": "^3.9.6",
-    "prettier-plugin-multiline-arrays": "^4.1.10"
-  },
-  "overrides": {
-    "markdownlint-cli2": {
-      "js-yaml": "5.2.2"
-    }
+    "prettier-plugin-multiline-arrays": "^4.1.11"
   },
   "scripts": {
     "check": "npx prettier . --check",
