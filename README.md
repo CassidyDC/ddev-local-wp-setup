@@ -1,6 +1,6 @@
-# DDEV WordPress Setup Script
+# DDEV Local WP Setup
 
-This installation script automatically sets up a development Docker server with DDEV and installs a WordPress site with clean defaults on that server.
+A simple CLI for setting up a local WordPress development server with DDEV.
 
 > [!NOTE]
 > The following software must be installed for the `ddev-local-wp-setup` package to work:
@@ -24,16 +24,16 @@ This installation script automatically sets up a development Docker server with 
 
 This script automatically sets up the following:
 
--   Configures and starts the [DDEV](https://ddev.com/) Docker containers with a WordPress development server.
--   Installs a clean WordPress site with the default pages, posts, comments, plugins, themes, welcome panel and dashboard widgets removed (with the exception of the latest official default theme as a fallback).
--   (Optional) Downloads and installs the [CassidyDC Toolset Dev WP Dev WP](https://github.com/CassidyDC/toolset-dev-wp).
--   (Optional) Downloads, installs, and activates the [CassidyDC WP Starter Block Theme](https://github.com/CassidyDC/cassidydc-wp-starter-block-theme).
--   (Optional) Installs the [All-in-One WP Migration plugin](https://wordpress.org/plugins/all-in-one-wp-migration/).
--   (Optional) Installs the [All-in-One WP Migration Unlimited Extension plugin](https://servmask.com/products/unlimited-extension).
-    -   _The setup for this plugin is set to `false` by default since it's a paid plugin and is installed from your local machine. If you have this plugin, you can turn the installation on in the `config.sh` file by changing `INSTALL_WP_PLUGIN_AIOMUE_LOCAL` to `true` and updating the path to your zip file._
--   (Optional) Installs the [Query Monitor plugin](https://wordpress.org/plugins/query-monitor/).
--   (Optional) Installs the files needed to connect the DDEV Docker containers with the [Spatie Ray](https://myray.app/) desktop app (used for simple debugging when Xdebug is overkill).
--   (Optional) Initializes a local project Git repo in the `wp-content` directory
+- Configures and starts the [DDEV](https://ddev.com/) Docker containers with a WordPress development server.
+- Installs a clean WordPress site with the default pages, posts, comments, plugins, themes, welcome panel and dashboard widgets removed (with the exception of the latest official default theme as a fallback).
+- (Optional) Downloads and installs the [CassidyDC Toolset Dev WP Dev WP](https://github.com/CassidyDC/toolset-dev-wp).
+- (Optional) Downloads, installs, and activates the [CassidyDC WP Starter Block Theme](https://github.com/CassidyDC/cassidydc-wp-starter-block-theme).
+- (Optional) Installs the [All-in-One WP Migration plugin](https://wordpress.org/plugins/all-in-one-wp-migration/).
+- (Optional) Installs the [All-in-One WP Migration Unlimited Extension plugin](https://servmask.com/products/unlimited-extension).
+  - _The setup for this plugin is set to `false` by default since it's a paid plugin and is installed from your local machine. If you have this plugin, you can turn the installation on in the `config.sh` file by changing `INSTALL_WP_PLUGIN_AIOMUE_LOCAL` to `true` and updating the path to your zip file._
+- (Optional) Installs the [Query Monitor plugin](https://wordpress.org/plugins/query-monitor/).
+- (Optional) Installs the files needed to connect the DDEV Docker containers with the [Spatie Ray](https://myray.app/) desktop app (used for simple debugging when Xdebug is overkill).
+- (Optional) Initializes a local project Git repo in the `wp-content` directory
 
 ## Found an Issue?
 
