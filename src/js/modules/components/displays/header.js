@@ -1,16 +1,26 @@
 /**
- * HEADER
- * @module components/cli-header
+ * DISPLAY HEADER
+ * @module components/displays/header
  */
 
-// External dependencies
+// Import external modules
 import stringWidth from "string-width";
 
-// Internal modules
-import { c } from "../utils/styles.js";
-import { log, pkgJSON } from "../utils/helpers.js";
+// Import utils
+import { c, log, pkgJSON, hasFlagNoClear, hasFlagNoHeader, hasVersionFlagOnly } from "../../utils/helpers/index.js";
 
-export function cliHeader(clear = true) {
+/**
+ * Display CLI Header
+ *
+ * Prints the header, unless the user included the `no-header` or `version` flags.
+ */
+export function displayHeader() {
+  const clear = !hasFlagNoClear;
+  if (!hasFlagNoHeader && !hasVersionFlagOnly) cliHeader(clear);
+  else if (clear && !hasVersionFlagOnly) console.clear();
+}
+
+function cliHeader(clear = true) {
   if (clear) console.clear();
 
   const box = (lines) => {
