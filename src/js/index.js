@@ -7,7 +7,7 @@
 // Import components
 import { displayHeader } from "./modules/components/index.js";
 
-// Import utils
+// Import helpers
 import { processArgs } from "./modules/utils/helpers/index.js";
 
 displayHeader();

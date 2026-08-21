@@ -1,15 +1,15 @@
 /**
  * INIT WP SETUP
- * @module commands/install/init-wp-setup
+ * @module commands/install/init/wp-setup
  */
 
 // Import configs
-import { installConfig } from "../../configs/index.js";
+import { installConfig } from "../../../configs/index.js";
 
 /**
  * Runs the shell commands to install the local DDEV WordPress development server setup.
  */
-export function initWPSetup() {
+export async function initWPSetup() {
   console.log("Running initWPSetup()");
 
   const {
@@ -26,9 +26,9 @@ export function initWPSetup() {
   const { wpCleanState, wpCorePath, wpPostnamePermalinks } = installConfig.wpCore;
 
   if (wpCorePath) {
-    // Install WP in custom directory.
+    // Install WP Core in custom directory.
   } else {
-    // install WP in root directory.
+    // install WP Core in "wordpress" directory.
   }
 
   if (wpCleanState) {

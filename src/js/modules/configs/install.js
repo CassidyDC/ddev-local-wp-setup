@@ -36,7 +36,7 @@ export const installConfig = {
   },
   wpCore: {
     wpCleanState: null,
-    wpCorePath: null,
+    wpCoreDir: null,
     wpDebug: null,
     wpDebugDisplay: null,
     wpDebugLogPath: null,

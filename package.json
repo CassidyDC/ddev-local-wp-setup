@@ -54,8 +54,7 @@
     "lint:docs": "npx markdownlint-cli2 \"**/*.md\"",
     "lint:docs:fix": "npx markdownlint-cli2 \"**/*.md\" --fix",
     "lint:scripts": "npx eslint",
-    "lint:scripts:fix": "npx eslint --fix",
-    "test": "node test.js"
+    "lint:scripts:fix": "npx eslint --fix"
   },
   "allowScripts": {
     "lefthook@2.1.10": true,
