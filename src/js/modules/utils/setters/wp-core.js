@@ -9,9 +9,9 @@
 export function set_wp_clean_state() {}
 
 /**
- * SET CORE PATH
+ * SET CORE DIR
  */
-export function set_wp_core_path() {}
+export function set_wp_core_dir() {}
 
 /**
  * SET WP DEBUG
