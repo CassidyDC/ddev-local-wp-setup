@@ -36,11 +36,11 @@ export async function initFileStructure() {
   await createComposerFile(dirPath);
   await createIndexPhpFile(dirPath);
   await createWPCliFile(dirPath);
-  await createDocsDirs(dirPath);
-  await createTodoFile(dirPath);
   await createWPContentDirs(dirPath);
   await createReadmeFile(dirPath);
   await createChangelogFile(dirPath);
   await createLogsDir(dirPath);
   await createPackageFile(dirPath);
+  await createDocsDirs(dirPath);
+  await createTodoFile(dirPath);
 }
