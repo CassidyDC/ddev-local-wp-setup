@@ -9,18 +9,18 @@ import path from "node:path";
 import process from "node:process";
 
 // Import configs
-import { installConfig } from "../../../../configs/index.js";
+import { installationConfig } from "../../../../configs/index.js";
 
 // Import helpers
 import { c, log, runCommand } from "../../../../utils/helpers/index.js";
 
 // - Add <root>/composer.json with roots/wordpress package and WP Core directory (default: "wordpress"), then run to install WP Core.
-export async function createComposerFile(dirPath) {
+export async function createComposerFile() {
   log(c.detail("Creating `composer.json` file..."));
 
-  const composerSource = path.join(dirPath, "../templates/root/composer.json");
+  const composerSource = new URL("./templates/root/composer.json", import.meta.url);
   const composerTarget = path.join(process.cwd(), "composer.json");
-  const customWPCoreDir = installConfig.wpCore.wpCoreDir;
+  const customWPCoreDir = installationConfig.wpCore.wpCoreDir;
 
   try {
     await fs.access(composerTarget);
