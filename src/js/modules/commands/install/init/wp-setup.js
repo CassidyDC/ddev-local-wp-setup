@@ -4,7 +4,7 @@
  */
 
 // Import configs
-import { installConfig } from "../../../configs/index.js";
+import { installationConfig } from "../../../configs/index.js";
 
 /**
  * Runs the shell commands to install the local DDEV WordPress development server setup.
@@ -21,9 +21,9 @@ export async function initWPSetup() {
     includeThemeWpDefault,
     includeToolsetPluginDev,
     includeToolsetThemeDev,
-  } = installConfig.project;
-  // const { email, password, username } = installConfig.wpAdmin;
-  const { wpCleanState, wpCorePath, wpPostnamePermalinks } = installConfig.wpCore;
+  } = installationConfig.project;
+  // const { email, password, username } = installationConfig.wpAdmin;
+  const { wpCleanState, wpCorePath, wpPostnamePermalinks } = installationConfig.wpCore;
 
   if (wpCorePath) {
     // Install WP Core in custom directory.

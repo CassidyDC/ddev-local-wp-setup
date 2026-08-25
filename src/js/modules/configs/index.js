@@ -5,4 +5,4 @@
 
 export * from "./commands.js";
 export * from "./flags.js";
-export * from "./install.js";
+export * from "./installation.js";
