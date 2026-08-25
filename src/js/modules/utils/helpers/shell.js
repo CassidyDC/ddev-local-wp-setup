@@ -13,32 +13,6 @@ import { commandsConfig, flagsConfig } from "../../configs/index.js";
 import { userCommands, userFlags } from "./index.js";
 
 /**
- * RUN COMMAND
- *
- * @param {string} command The shell command being executed.
- * @param {string[]} args The shell command argument being executed.
- * @returns {Promise<void>} Resolves when the command exits with code 0.
- */
-export function runCommand(command, args = []) {
-  return new Promise((resolve, reject) => {
-    const child = spawn(command, args, {
-      stdio: "inherit",
-      shell: false,
-    });
-
-    child.on("error", reject);
-
-    child.on("close", (code) => {
-      if (code === 0) {
-        resolve();
-      } else {
-        reject(new Error(`${command} exited with code ${code}`));
-      }
-    });
-  });
-}
-
-/**
  * Checks if the user included a command in their prompt
  *
  * @param {string} cmdName The full string name for the command being checked
@@ -72,4 +46,30 @@ export function checkForUserFlag(flagName) {
 
   // User did not include flag
   return false;
+}
+
+/**
+ * RUN COMMAND
+ *
+ * @param {string} command The shell command being executed.
+ * @param {string[]} args The shell command argument being executed.
+ * @returns {Promise<void>} Resolves when the command exits with code 0.
+ */
+export function runCommand(command, args = []) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(command, args, {
+      stdio: "inherit",
+      shell: false,
+    });
+
+    child.on("error", reject);
+
+    child.on("close", (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        reject(new Error(`${command} exited with code ${code}`));
+      }
+    });
+  });
 }
