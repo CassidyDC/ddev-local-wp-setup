@@ -1,9 +1,9 @@
 /**
- * INSTALL CONFIG
- * @module configs/install
+ * INSTALLATION CONFIG
+ * @module configs/installation
  */
 
-export const installConfig = {
+export const installationConfig = {
   ddev: {
     dns: null,
     projectName: null,
@@ -12,6 +12,8 @@ export const installConfig = {
   },
   devToolset: {
     includeToolset: null,
+    includeToolsetPluginDev: null,
+    includeToolsetThemeDev: null,
     includeVscodeRecommend: null,
     includeVscodeWorkspace: null,
     initGit: null,
@@ -20,8 +22,6 @@ export const installConfig = {
     customPluginSlug: null,
     customThemeSlug: null,
     includePluginAi1m: null,
-    includeToolsetPluginDev: null,
-    includeToolsetThemeDev: null,
     includeHomepage: null,
     includeCustomThemeStarterFiles: null,
     includeThemeWpDefault: null,
