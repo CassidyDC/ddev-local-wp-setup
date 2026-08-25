@@ -34,7 +34,7 @@ Press ENTER to continue...
 
 2. Use localhost to resolve your project's domain? (Y/n) (If no is selected, your project's domain will be resolved via DNS. If localhost is used, the project domain will be added to your OS "hosts" file, which requires permission to edit.)
 
-3. Add DDEV server connection files for Spatie Ray app? (Y/n) (Select no if you don't use the Spatie Ray app.)
+3. Add DDEV server connection files for Spatie Ray app? (Y/n) (Enter "no" if you don't use the Spatie Ray app.)
 
 ### WordPress Core Settings
 
@@ -45,19 +45,17 @@ Press ENTER to continue...
 
 3. Include the default WordPress theme? (Y/n) (Recommended as a fallback theme.)
 
-4. Install the All-in-One WP Migration plugin? (Y/n)
+4. Set WP permalinks to use `%%postname%%`? (Y/n) (If no, permalinks will use the default date format)
 
-5. Set WP permalinks to use `%%postname%%`? (Y/n) (If no, permalinks will use the default date format)
+5. Enable WordPress debugging? (Y/n)
 
-6. Enable WordPress debugging? (Y/n)
+6. Hide debugging display? (Y/n)
 
-7. Hide debugging display? (Y/n)
+7. Log debugging output to a file? (Y/n)
 
-8. Log debugging output to a file? (Y/n)
+8. Where do you want to store the log file? (Enter a path relative from your project's root, or leave blank to use `/wp-content/logs/wp-errors.log`). (Y/n)
 
-9. Where do you want to store the log file? (Enter a path relative from your project's root, or leave blank to use `/wp-content/logs/wp-errors.log`). (Y/n)
-
-10. Enable script debugging too? (Y/n)
+9. Enable script debugging too? (Y/n)
 
 ### WordPress Admin Settings
 
@@ -81,9 +79,11 @@ Press ENTER to continue...
 
 2. Add a non-blog homepage? (Y/n) (If no, the front page will be the default blog.)
 
-3. Set your WP_ENVIRONMENT_TYPE: (0 = leave unset, 1 = local, 2 = development, 3 = staging, 4 = production) (Defaults to `local`.) (See: [WordPress Environment Types](https://make.wordpress.org/core/2020/08/27/wordpress-environment-types/))
+3. Install the All-in-One WP Migration plugin? (Y/n)
 
-4. Set your WP_DEVELOPMENT_MODE: (0 = leave unset, 1 = theme, 2 = plugin, 3 = core, 4 = all) (Defaults to what you selected as your project settings) (See: [Configuring Development Mode in 6.3](https://make.wordpress.org/core/2023/07/14/configuring-development-mode-in-6-3/))
+4. Set your WP_ENVIRONMENT_TYPE: (0 = leave unset, 1 = local, 2 = development, 3 = staging, 4 = production) (Defaults to `local`.) (See: [WordPress Environment Types](https://make.wordpress.org/core/2020/08/27/wordpress-environment-types/))
+
+5. Set your WP_DEVELOPMENT_MODE: (0 = leave unset, 1 = theme, 2 = plugin, 3 = core, 4 = all) (Defaults to what you selected as your project settings) (See: [Configuring Development Mode in 6.3](https://make.wordpress.org/core/2023/07/14/configuring-development-mode-in-6-3/))
 
 ### Development Config Settings
 
