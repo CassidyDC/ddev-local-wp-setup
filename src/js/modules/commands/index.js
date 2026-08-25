@@ -3,7 +3,7 @@
  * @module commands/index
  */
 
-// Install command modules
+// `Install` command modules
 export * from "./install/create/dirs/docs.js";
 export * from "./install/create/dirs/logs.js";
 export * from "./install/create/dirs/wp-content.js";
