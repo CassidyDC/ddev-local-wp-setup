@@ -3,11 +3,7 @@
  * @module commands/install/init/file-structure
  */
 
-// Import node modules
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
-// Import command helpers
+// Import file structure creators
 import {
   createChangelogFile,
   createComposerFile,
@@ -29,18 +25,14 @@ import { c, log } from "../../../utils/helpers/index.js";
  */
 export async function initFileStructure() {
   log(c.headingInfo(" Running initFileStructure() "));
-
-  const filePath = fileURLToPath(import.meta.url);
-  const dirPath = path.dirname(filePath);
-
-  await createComposerFile(dirPath);
-  await createIndexPhpFile(dirPath);
-  await createWPCliFile(dirPath);
-  await createWPContentDirs(dirPath);
-  await createReadmeFile(dirPath);
-  await createChangelogFile(dirPath);
-  await createLogsDir(dirPath);
-  await createPackageFile(dirPath);
-  await createDocsDirs(dirPath);
-  await createTodoFile(dirPath);
+  await createComposerFile();
+  await createIndexPhpFile();
+  await createWPCliFile();
+  await createWPContentDirs();
+  await createReadmeFile();
+  await createChangelogFile();
+  await createLogsDir();
+  await createPackageFile();
+  await createDocsDirs();
+  await createTodoFile();
 }
