@@ -1,18 +1,19 @@
 /**
- * INSTALL SETTINGS CONFIGURATION
- *
- * This module provides the configuration settings for the installation process.
- * It defines the structure and initial values for various installation parameters.
- * @module configs/install-settings
+ * SETTINGS SCHEMA
+ * @module configs/settings-schema
  */
 
 // Import helpers
 import {
-  c,
   generateProjectNameFromDir,
   generateNamespaceFromName,
   generateSlugFromName,
   generateTextDomainFromName,
+} from "../utils/helpers/generate.js";
+
+import { c } from "../utils/helpers/styles.js";
+
+import {
   validateDirSlug,
   validateLogPath,
   validateNamespace,
@@ -20,7 +21,7 @@ import {
   validateWPAdminEmail,
   validateWPAdminPassword,
   validateWPAdminUsername,
-} from "../utils/helpers/index.js";
+} from "../utils/helpers/validate.js";
 
 export const settingsSchema = {
   ddev: {
@@ -101,7 +102,7 @@ export const settingsSchema = {
 
     postnamePermalinks: {
       type: "confirm",
-      message: `${c.bold(`Use ${c.yellow("%%postname%%")} for the WP permalinks? `)}`,
+      message: c.bold(`Use ${c.yellow("%%postname%%")} for the WP permalinks?`),
       initial: true,
       hint: `(If "n" is selected, permalinks will use the default date format.)`,
     },
@@ -168,7 +169,7 @@ export const settingsSchema = {
     custom: {
       type: "confirm",
       message: `Create a new custom plugin directory? `,
-      enabled: ["Plugin", "Both"].includes(({ wordpress }) => wordpress.projectType),
+      enabled: ({ wordpress }) => ["Plugin", "Both"].includes(wordpress.projectType),
     },
 
     customName: {
@@ -180,7 +181,7 @@ export const settingsSchema = {
     customSlug: {
       type: "input",
       message: `Custom plugin directory slug:`,
-      initial: ({ plugin }) => generateSlugFromName(plugin.customName),
+      initial: ({ plugin } = {}) => generateSlugFromName(plugin?.customName),
       hint: "(Use only lowercase letter, digits, and dashes, such as `cassidydc-core-plugin`)",
       validate: validateDirSlug,
       enabled: ({ plugin }) => plugin.custom,
@@ -214,7 +215,7 @@ export const settingsSchema = {
     custom: {
       type: "confirm",
       message: `Create a new custom theme directory? `,
-      enabled: ["Theme", "Both"].includes(({ wordpress }) => wordpress.projectType),
+      enabled: ({ wordpress }) => ["Theme", "Both"].includes(wordpress.projectType),
     },
 
     customName: {
@@ -252,7 +253,6 @@ export const settingsSchema = {
       type: "confirm",
       message: `Use the CassidyDC Starter Block Theme files for your new theme?`,
       initial: true,
-      hint: `(Press "n" if you don't use this plugin.)`,
       enabled: ({ theme }) => theme.custom,
     },
 
@@ -267,27 +267,27 @@ export const settingsSchema = {
   devConfig: {
     git: {
       type: "confirm",
-      message: "Initialize a Git repository for this project?",
+      message: "Initialize a local Git repository and .gitignore file for this project?",
       initial: true,
     },
 
     toolsetCustomPlugin: {
       type: "confirm",
-      message: `Add the CassidyDC WP Dev Plugin Toolset to your custom plugin? `,
+      message: `Add the CassidyDC Plugin Dev Toolset to your custom plugin? `,
       initial: true,
       enabled: ({ plugin }) => plugin.custom,
     },
 
     toolsetCustomTheme: {
       type: "confirm",
-      message: `Add the CassidyDC WP Dev Toolset to your custom theme? `,
+      message: `Add the CassidyDC Theme Dev Toolset to your custom theme? `,
       initial: true,
       enabled: ({ theme }) => theme.custom,
     },
 
     toolsetWPContent: {
       type: "confirm",
-      message: `Add the CassidyDC Toolset to /wp-content? `,
+      message: `Add the CassidyDC WP Toolset to /wp-content? `,
       initial: true,
     },
 
