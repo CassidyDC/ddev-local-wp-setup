@@ -4,3 +4,4 @@
  */
 
 export * from "./arguments.js";
+export * from "./names.js";
