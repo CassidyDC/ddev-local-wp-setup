@@ -18,4 +18,4 @@ export * from "./install/init/ddev-setup.js";
 export * from "./install/init/dev-toolsets.js";
 export * from "./install/init/file-structure.js";
 export * from "./install/init/wp-setup.js";
-export * from "./install/run-install.js";
+export * from "./install/installer.js";

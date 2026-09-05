@@ -1,13 +1,14 @@
 /**
- * RUN INSTALL COMMAND
- * @module commands/install/run-install
+ * Installer
+ * @module commands/install/installer
  */
 
 // Import node modules
-import process from "node:process";
-
 import readline from "node:readline/promises";
-import { stdin as input, stdout as output } from "node:process";
+import process, { stdin as input, stdout as output } from "node:process";
+
+// Import helpers
+import { c, cliPrompts, log } from "../../utils/helpers/index.js";
 
 // import { spawn } from "node:child_process";
 
@@ -16,9 +17,6 @@ import { stdin as input, stdout as output } from "node:process";
 
 // Import command modules
 // import { initWPSetup } from "../index.js";
-
-// import { c } from "../utils/styles.js";
-// import { log } from "../utils/helpers.js";
 
 // export function runInstallationWizard() {
 //   log(c.headingInfo(` Starting Installation Wizard... `));
@@ -35,48 +33,17 @@ import { stdin as input, stdout as output } from "node:process";
 // async function installSetup() {}
 
 // Import install modules
-import { initFileStructure, initDevToolsets, initDDEVSetup, initWPSetup } from "../index.js";
-
-// Import helpers
-import { c, cliPrompts, log } from "../../utils/helpers/index.js";
+// import { initFileStructure, initDevToolsets, initDDEVSetup, initWPSetup } from "../index.js";
 
 /**
  * Installs the local development server with DDEV and WordPress.
  */
-export async function runInstall() {
-  // console.log("Running runInstall()");
+export async function runInstaller() {
+  await displayStartupPrompt();
+  const promptResults = await cliPrompts();
+  log(`\n`, "promptResults:", promptResults);
 
-  log(`You are running the DDEV Local WP Setup installation wizard. This wizard will ask you details for setting up files in the following areas:
-
-1. DDEV Server
-2. WordPress Core
-3. WordPress Admin
-4. Project
-5. Development Config
-
-You will have a chance to review and finalize the settings before the installation runs.\n`);
-
-  log(
-    c.warn(
-      `Note: Make sure you are running this wizard from the directory you want to install your local DDEV server in. Your current directory is: ${c.detail(process.cwd())}. If that is not where you want your installation, exit the wizard and restart it from the correct directory.\n`,
-    ),
-  );
-
-  const rl = readline.createInterface({ input, output });
-
-  const answer = await rl.question(
-    `${c.info(`Press ${c.bold("Enter")} to continue, or type ${c.bold('"exit"')} and press Enter to quit: `)}`,
-  );
-
-  rl.close();
-
-  if (answer.trim().toLowerCase() === "exit") {
-    process.exit(0);
-  }
-
-  const promptConfigResults = await cliPrompts();
-
-  console.log("promptConfigResults", promptConfigResults);
+  // console.log(JSON.stringify(promptResults, (key, value) => (key === "adminPassword" ? "[REDACTED]" : value)));
 
   // const { dns, projectName, spatieRay, uploadDirs } = installationConfig.ddev;
   // const { includeToolset, includeVscodeRecommend, includeVscodeWorkspace, initGit } = installationConfig.devToolset;
@@ -107,4 +74,28 @@ You will have a chance to review and finalize the settings before the installati
   //    - Add <root>/ray.php
 
   // await initWPSetup();
+}
+
+async function displayStartupPrompt() {
+  log(`${c.headingInfo(" Installation Wizard ")}\n`);
+  log(
+    c.warn(
+      `${c.em(">")} Make sure you are running this wizard from the directory you want to install your local DDEV server in.`,
+    ),
+  );
+  log(`${c.em("> Your current directory is: ")}${c.detail(process.cwd())}`);
+  log(
+    `${c.em("> If that is not where you want your installation, exit the wizard and restart it from the correct directory.")}\n`,
+  );
+
+  const rl = readline.createInterface({ input, output });
+  const answer = await rl.question(
+    `${c.info(`Press ${c.bold("Enter")} to continue, or type ${c.bold("exit")} to quit: `)}`,
+  );
+
+  rl.close();
+
+  if (answer.trim().toLowerCase() === "exit") {
+    process.exit(0);
+  }
 }
