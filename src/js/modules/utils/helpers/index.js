@@ -4,6 +4,7 @@
  */
 
 export * from "./constants.js";
+export * from "./generate.js";
 export * from "./normalize.js";
 export * from "./process.js";
 export * from "./prompts.js";

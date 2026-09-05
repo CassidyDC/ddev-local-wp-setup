@@ -10,12 +10,10 @@ const { prompt } = pkg;
 // Import configs
 import { installationConfig } from "../../configs/index.js";
 
-// Import getters
-import { getProjectNameFromDir } from "../getters/index.js";
-
 // Import helpers
 import {
   c,
+  generateProjectNameFromDir,
   log,
   validateDirSlug,
   validateLogPath,
@@ -53,7 +51,7 @@ async function promptDDEVSettings() {
       type: "input",
       name: "projectName",
       message: `DDEV project name: `,
-      initial: getProjectNameFromDir(),
+      initial: generateProjectNameFromDir(),
       hint: `(This is the name of your DDEV project, which will be used to generate your DDEV domain.)`,
     },
     {
