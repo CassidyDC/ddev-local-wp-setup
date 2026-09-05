@@ -3,7 +3,7 @@
  * @module utils/helpers/styles
  */
 
-// Import external modules
+// Import packages
 import c from "ansi-colors";
 
 /**
