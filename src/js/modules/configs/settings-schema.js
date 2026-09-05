@@ -271,24 +271,24 @@ export const settingsSchema = {
       initial: true,
     },
 
+    toolsetWPContent: {
+      type: "confirm",
+      message: `Add the CassidyDC WP Dev Toolset to /wp-content? `,
+      initial: true,
+    },
+
     toolsetCustomPlugin: {
       type: "confirm",
       message: `Add the CassidyDC Plugin Dev Toolset to your custom plugin? `,
       initial: true,
-      enabled: ({ plugin }) => plugin.custom,
+      enabled: ({ plugin, devConfig }) => plugin.custom && devConfig.toolsetWPContent,
     },
 
     toolsetCustomTheme: {
       type: "confirm",
       message: `Add the CassidyDC Theme Dev Toolset to your custom theme? `,
       initial: true,
-      enabled: ({ theme }) => theme.custom,
-    },
-
-    toolsetWPContent: {
-      type: "confirm",
-      message: `Add the CassidyDC WP Toolset to /wp-content? `,
-      initial: true,
+      enabled: ({ theme, devConfig }) => theme.custom && devConfig.toolsetWPContent,
     },
 
     vscodeRecommendations: {
