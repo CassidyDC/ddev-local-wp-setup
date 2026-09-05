@@ -3,56 +3,69 @@
  * @module utils/helpers/prompts
  */
 
-// Import node processes
-import process from "node:process";
-
 // Import external dependencies
 import pkg from "enquirer";
-const { prompt, Confirm } = pkg;
+const { prompt } = pkg;
+
+// Import configs
+import { installationConfig } from "../../configs/index.js";
+
+// Import getters
+import { getProjectNameFromDir } from "../getters/index.js";
 
 // Import helpers
-import { c, log, validateWPEmail, validateWPPassword, validateWPUsername } from "./index.js";
+import {
+  c,
+  log,
+  validateDirSlug,
+  validateLogPath,
+  validateWPCoreDir,
+  validateWPAdminEmail,
+  validateWPAdminPassword,
+  validateWPAdminUsername,
+} from "./index.js";
 
 /**
+ * Prompts the user for configuration settings for the DDEV Local WP Setup.
  *
- * @returns {object} The prompt config settings
+ * @returns {object} The installationConfig object with the user's responses.
  */
 export async function cliPrompts() {
-  const ddevServerSettings = await promptDDEVServerSettings();
-  const wpCoreSettings = await promptWPCoreSettings();
-  const wpAdminSettings = await promptWPAdminSettings();
-  const projectSettings = await promptProjectSettings();
-  const devConfigSettings = await promptDevConfigSettings();
+  Object.assign(installationConfig.ddev, await promptDDEVSettings());
+  Object.assign(installationConfig.wordpress, await promptWordPressSettings());
+  Object.assign(installationConfig.plugin, await promptPluginSettings());
+  Object.assign(installationConfig.theme, await promptThemeSettings());
+  Object.assign(installationConfig.devConfig, await promptDevConfigSettings());
 
-  return {
-    ddev: ddevServerSettings,
-    devToolset: devConfigSettings,
-    project: projectSettings,
-    wpAdmin: wpAdminSettings,
-    wpCore: wpCoreSettings,
-  };
+  return installationConfig;
 }
 
-async function promptDDEVServerSettings() {
-  log(`\n${c.headingInfo(" Local DDEV Server Settings ")}\n`);
+/**
+ * Prompts the user for DDEV server settings.
+ *
+ * @returns {Promise<object>} An object with the user's responses.
+ */
+async function promptDDEVSettings() {
+  log(`\n${c.headingInfo(" DDEV Settings ")}\n`);
 
   const questions = [
     {
       type: "input",
-      name: "ddev-project-slug",
-      message: `Set your DDEV project name: `,
-      hint: `(Leave blank to use the current directory for the name, minus any leading non-alphanumeric characters and trailing ".ddev.site")`,
+      name: "projectName",
+      message: `DDEV project name: `,
+      initial: getProjectNameFromDir(),
+      hint: `(This is the name of your DDEV project, which will be used to generate your DDEV domain.)`,
     },
     {
       type: "confirm",
-      name: "ddev-use-localhost",
+      name: "localhost",
       message: `Use localhost to resolve your DDEV domain? `,
       initial: true,
-      hint: `(If false is set, your project's domain will be resolved via DNS. Using the DNS method doesn't require OS system permissions to set up, but issues can arise when you have no internet connection.)`,
+      hint: `(If "n" is selected, your project's domain will be resolved via DNS. Using the DNS method doesn't require OS system permissions to set up, but issues can arise when you have no internet connection.)`,
     },
     {
       type: "confirm",
-      name: "ddev-ray-connection",
+      name: "spatieRay",
       message: `Add Spatie Ray connection files for DDEV? `,
       initial: true,
       hint: `(Press "n" if you don't use the Spatie Ray app.)`,
@@ -62,195 +75,130 @@ async function promptDDEVServerSettings() {
   return await prompt(questions);
 }
 
-async function promptWPCoreSettings() {
-  log(`\n${c.headingInfo(" WordPress Core Settings ")}\n`);
+/**
+ * Prompts the user for WordPress settings.
+ *
+ * @returns {Promise<object>} An object with the user's responses.
+ */
+async function promptWordPressSettings() {
+  log(`\n${c.headingInfo(" WordPress Settings ")}\n`);
 
   const questions = [
     {
+      type: "select",
+      name: "projectType",
+      message: `What are you developing for this project? `,
+      choices: ["Theme", "Plugin", "Both"],
+    },
+    {
       type: "input",
-      name: "wp-core-dir",
-      message: `Set your WP Core directory: `,
-      hint: `(Leave blank to use the "/wordpress" directory. Note: wp-content will be installed outside this directory.)`,
+      name: "adminUsername",
+      message: `WP Admin username: `,
+      validate: validateWPAdminUsername,
+    },
+    {
+      type: "password",
+      name: "adminPassword",
+      message: `WP Admin user password: `,
+      validate: validateWPAdminPassword,
+    },
+    {
+      type: "input",
+      name: "adminEmail",
+      message: `WP Admin user email: `,
+      validate: validateWPAdminEmail,
+    },
+    {
+      type: "input",
+      name: "siteTitle",
+      message: `Site title: `,
+      initial: installationConfig.ddev.projectName,
+    },
+    {
+      type: "input",
+      name: "siteTagname",
+      message: `Site tagname: `,
+      hint: `(Leave blank if a tagname is not desired.)`,
+    },
+    {
+      type: "input",
+      name: "coreDir",
+      message: `WP Core directory: `,
+      initial: "/wordpress",
+      hint: `(Note: /wp-content will be installed outside the WP Core directory.)`,
+      validate: validateWPCoreDir,
     },
     {
       type: "confirm",
-      name: "wp-core-clean",
+      name: "cleanState",
       message: `Install WP with a clean state? `,
       initial: true,
-      hint: "(This will remove all default pages, posts, comments, plugins, and widgets from the WordPress install for a clean starting state.)",
+      hint: "(This will remove the default pages, posts, comments, plugins, and widgets from the WordPress install for a clean starting state.)",
     },
     {
       type: "confirm",
-      name: "wp-core-theme-default",
-      message: `Include the default WordPress theme? `,
+      name: "postnamePermalinks",
+      message: `${c.bold(`Use ${c.yellow("%%postname%%")} for the WP permalinks? `)}`,
       initial: true,
-      hint: `(Recommended as a fallback theme.)`,
+      hint: `(If "n" is selected, permalinks will use the default date format.)`,
     },
     {
       type: "confirm",
-      name: "wp-core-permalinks-postname",
-      message: `Use %%postname%% for the WP permalinks? `,
-      initial: true,
-      hint: `(If set to false, permalinks will use the default date format)`,
-    },
-    {
-      type: "confirm",
-      name: "wp-core-debug",
+      name: "debug",
       message: `Enable WordPress debugging"? `,
       initial: true,
     },
     {
       type(questions, answers) {
-        return answers["wp-core-debug"] ? "confirm" : null;
+        return answers["debug"] ? "confirm" : null;
       },
-      name: "wp-core-debug-display",
+      name: "debugScript",
+      message: `Enable script debugging? `,
+      initial: true,
+      hint: `(This will include JavaScript in the debugging, instead of just PHP.)`,
+    },
+    {
+      type(questions, answers) {
+        return answers["debug"] ? "confirm" : null;
+      },
+      name: "debugDisplayHidden",
       message: `Hide the frontend debugging display"? `,
       initial: true,
     },
     {
       type(questions, answers) {
-        return answers["wp-core-debug"] ? "confirm" : null;
+        return answers["debug"] ? "confirm" : null;
       },
-      name: "wp-core-debug-log",
+      name: "debugLog",
       message: `Log debugging output to a file? `,
       initial: true,
     },
     {
       type(questions, answers) {
-        return answers["wp-core-debug-log"] ? "input" : null;
+        return answers["debugLog"] ? "input" : null;
       },
-      name: "wp-core-debug-log-path",
-      message: `Where do you want to store the log file? `,
-      hint: `(Leave blank to use "/wp-content/logs/wp-errors.log", or enter a path (including the filename), relative to your project's root)`,
-    },
-    {
-      type(questions, answers) {
-        return answers["wp-core-debug"] ? "confirm" : null;
-      },
-      name: "wp-core-debug-script",
-      message: `Enable script debugging too? `,
-      initial: true,
-    },
-  ];
-
-  return await prompt(questions);
-}
-
-async function promptWPAdminSettings() {
-  log(`\n${c.headingInfo(" WordPress Admin Settings ")}\n`);
-
-  const questions = [
-    {
-      type: "input",
-      name: "wp-admin-username",
-      message: `Set your WP Admin username: `,
-      validate: validateWPUsername,
-    },
-    {
-      type: "password",
-      name: "wp-admin-password",
-      message: `Set your WP Admin user password: `,
-      validate: validateWPPassword,
-    },
-    {
-      type: "input",
-      name: "wp-admin-email",
-      message: `Set your WP Admin user email: `,
-      validate: validateWPEmail,
-    },
-    {
-      type: "input",
-      name: "wp-site-title",
-      message: `Set your WP site title: `,
-      hint: `(Leave blank to use the DDEV project name.)`,
-    },
-    {
-      type: "input",
-      name: "wp-site-tagname",
-      message: `Set your WP site tagname: `,
-      hint: `(Leave blank if a tagname is not desired.)`,
-    },
-  ];
-
-  return await prompt(questions);
-}
-
-async function promptProjectSettings() {
-  log(`\n${c.headingInfo(" Project Settings ")}\n`);
-
-  const questions = [
-    {
-      type: "select",
-      name: "project-type",
-      message: `Are you developing a WordPress Theme, Plugin, or both? `,
-      choices: ["Theme", "Plugin", "Both"],
-    },
-
-    // Theme follow-up questions
-    {
-      type(question, answers) {
-        return ["Theme", "Both"].includes(answers["project-type"]) ? "confirm" : null;
-      },
-      name: "project-custom-theme",
-      message: `Create a new custom theme directory? `,
-    },
-    {
-      type(questions, answers) {
-        return answers["project-custom-theme"] ? "input" : null;
-      },
-      name: "project-custom-theme-slug",
-      message: `Set your custom theme directory slug: `,
-      hint: "(Use only lowercase letter, digits, and dashes, such as `cassidydc-block-theme`)",
-    },
-    {
-      type(questions, answers) {
-        return answers["project-custom-theme"] ? "confirm" : null;
-      },
-      name: "project-custom-theme-stater-files",
-      message: `Use the CassidyDC Starter Block Theme files for your new theme? `,
-      initial: true,
-    },
-
-    // Plugin follow-up questions
-    {
-      type(question, answers) {
-        return ["Plugin", "Both"].includes(answers["project-type"]) ? "confirm" : null;
-      },
-      name: "project-custom-plugin",
-      message: `Create a new custom plugin directory? `,
-    },
-    {
-      type(questions, answers) {
-        return answers["project-custom-plugin"] ? "input" : null;
-      },
-      name: "project-custom-plugin-slug",
-      message: `Set your custom plugin directory slug: `,
-      hint: "(Use only lowercase letter, digits, and dashes, such as `cassidydc-core-plugin`)",
-    },
-
-    {
-      type: "confirm",
-      name: "project-plugin-ai1m",
-      message: `Install the All-in-One WP Migration plugin? `,
-      initial: true,
-      hint: `(Press "n" if you don't use this plugin.)`,
+      name: "debugLogPath",
+      message: `Debug log file path: `,
+      initial: "/wp-content/logs/wp-errors.log",
+      hint: `(Enter a path, including the filename, relative to your project's root.)`,
+      validate: validateLogPath,
     },
     {
       type: "select",
-      name: "project-wp-env-type",
-      message: `Set your WP_ENVIRONMENT_TYPE: `,
+      name: "wpEnvType",
+      message: `WP_ENVIRONMENT_TYPE: `,
       choices: ["Local", "Development", "Staging", "Production"],
-      hint: "If you're not sure, use 'Local'.",
+      hint: "Use 'Local' unless you have a specific need for another type.",
     },
     {
       type: "select",
-      name: "project-wp-dev-mode",
-      message: `Set your WP_DEVELOPMENT_MODE: `,
+      name: "wpDevMode",
+      message: `WP_DEVELOPMENT_MODE: `,
       choices: ["Theme", "Plugin", "Core", "All"],
     },
     {
       type: "confirm",
-      name: "project-add-homepage",
+      name: "homepage",
       message: `Add a non-blog homepage? `,
       initial: true,
       hint: `(This creates a new blank page named "Homepage" and sets it as the WordPress front page.)`,
@@ -260,48 +208,127 @@ async function promptProjectSettings() {
   return await prompt(questions);
 }
 
+/**
+ * Prompts the user for Plugin settings.
+ *
+ * @returns {Promise<object>} An object with the user's responses.
+ */
+async function promptPluginSettings() {
+  log(`\n${c.headingInfo(" Plugin Settings ")}\n`);
+
+  const questions = [
+    {
+      type: ["Plugin", "Both"].includes(installationConfig.wordpress.projectType) ? "confirm" : null,
+      name: "custom",
+      message: `Create a new custom plugin directory? `,
+    },
+    {
+      type(questions, answers) {
+        return answers["custom"] ? "input" : null;
+      },
+      name: "customSlug",
+      message: `Set your custom plugin directory slug: `,
+      hint: "(Use only lowercase letter, digits, and dashes, such as `cassidydc-core-plugin`)",
+      validate: validateDirSlug,
+    },
+    {
+      type: "confirm",
+      name: "ai1wm",
+      message: `Install the All-in-One WP Migration plugin? `,
+      initial: true,
+      hint: `(Press "n" if you don't use this plugin.)`,
+    },
+  ];
+
+  return await prompt(questions);
+}
+
+/**
+ * Prompts the user for Theme settings.
+ *
+ * @returns {Promise<object>} An object with the user's responses.
+ */
+async function promptThemeSettings() {
+  log(`\n${c.headingInfo(" Theme Settings ")}\n`);
+
+  const questions = [
+    {
+      type: ["Theme", "Both"].includes(installationConfig.wordpress.projectType) ? "confirm" : null,
+      name: "custom",
+      message: `Create a new custom theme directory? `,
+    },
+    {
+      type(questions, answers) {
+        return answers["custom"] ? "input" : null;
+      },
+      name: "customSlug",
+      message: `Set your custom theme directory slug: `,
+      hint: "(Use only lowercase letter, digits, and dashes, such as `cassidydc-block-theme`)",
+      validate: validateDirSlug,
+    },
+    {
+      type(questions, answers) {
+        return answers["custom"] ? "confirm" : null;
+      },
+      name: "customStarterFiles",
+      message: `Use the CassidyDC Starter Block Theme files for your new theme? `,
+      initial: true,
+    },
+    {
+      type: "confirm",
+      name: "default",
+      message: `Include the default WordPress theme? `,
+      initial: true,
+      hint: `(Recommended as a fallback theme.)`,
+    },
+  ];
+
+  return await prompt(questions);
+}
+
+/**
+ * Prompts the user for development config settings.
+ *
+ * @returns {Promise<object>} An object with the user's responses.
+ */
 async function promptDevConfigSettings() {
   log(`\n${c.headingInfo(" Development Config Settings ")}\n`);
 
   const questions = [
     {
       type: "confirm",
-      name: "dev-config-git",
-      message: `Initialize a local git repo and .gitignore file for '/wp-content'? `,
+      name: "toolsetWPContent",
+      message: `Add the CassidyDC Toolset to /wp-content? `,
+      initial: true,
+    },
+    {
+      type: installationConfig.plugin.custom ? "confirm" : null,
+      name: "toolsetCustomPlugin",
+      message: `Add the CassidyDC WP Dev Plugin Toolset to your custom plugin? `,
+      initial: true,
+    },
+    {
+      type: installationConfig.theme.custom ? "confirm" : null,
+      name: "toolsetCustomTheme",
+      message: `Add the CassidyDC WP Dev Toolset to your custom theme? `,
       initial: true,
     },
     {
       type: "confirm",
-      name: "dev-config-cassidydc-toolset",
-      message: `Add the CassidyDC Dev WP Toolset to '/wp-content'? `,
+      name: "git",
+      message: `${c.bold(`Initialize a local Git repo and ${c.yellow(".gitignore")} file for /wp-content? `)}`,
       initial: true,
     },
     {
       type: "confirm",
-      name: "dev-config-vscode-workspace",
-      message: `Add the CassidyDC VSCode workspace settings file? `,
+      name: "vscodeWorkspaceSettings",
+      message: `Add the CassidyDC VSCode Workspace Settings file? `,
       initial: true,
     },
     {
       type: "confirm",
-      name: "dev-config-vscode-recommendations",
-      message: `Add the CassidyDC VSCode recommended extensions file? `,
-      initial: true,
-    },
-    {
-      type(questions, answers) {
-        return answers["project-custom-theme"] ? "confirm" : null;
-      },
-      name: "dev-config-custom-theme-toolset",
-      message: `Add the CassidyDC Dev WP Theme Toolset to your custom theme? `,
-      initial: true,
-    },
-    {
-      type(questions, answers) {
-        return answers["project-custom-plugin"] ? "confirm" : null;
-      },
-      name: "dev-config-custom-plugin-toolset",
-      message: `Add the CassidyDC Dev WP Plugin Toolset to your custom plugin? `,
+      name: "vscodeRecommendations",
+      message: `Add the CassidyDC VSCode Extensions Recommendations file? `,
       initial: true,
     },
   ];
