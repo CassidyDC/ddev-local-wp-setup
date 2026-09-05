@@ -30,6 +30,18 @@ export function validateLogPath(value) {
   return true;
 }
 
+export function validateNamespace(value) {
+  const namespace = value.trim();
+
+  if (!/^[A-Z]/.test(namespace)) return "Namespace must start with a capitalized letter character.";
+
+  if (!/^[A-Z][A-Za-z0-9_\\]*$/.test(namespace)) {
+    return "Namespace may only contain letters, digits, underscores, and backward slashes.";
+  }
+
+  return true;
+}
+
 /**
  * Validates a WP Admin user email address
  * @param {string} value The email being validated.
