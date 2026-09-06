@@ -4,7 +4,7 @@
  */
 
 // Import commands
-import { runInstaller } from "../commands/index.js";
+import { runInstaller } from "../commands/install/index.js";
 
 export const commandsConfig = {
   install: {

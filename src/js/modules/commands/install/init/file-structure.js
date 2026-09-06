@@ -15,7 +15,7 @@ import {
   createTodoFile,
   createWPCliFile,
   createWPContentDirs,
-} from "../../index.js";
+} from "../index.js";
 
 // Import helpers
 import { c, log } from "../../../utils/helpers/index.js";
