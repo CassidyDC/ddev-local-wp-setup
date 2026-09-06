@@ -20,7 +20,7 @@ export async function createComposerFile() {
 
   const composerSource = new URL("./templates/root/composer.json", import.meta.url);
   const composerTarget = path.join(process.cwd(), "composer.json");
-  const customWPCoreDir = installationConfig.wpCore.wpCoreDir;
+  const wpCoreDir = installationConfig.wordpress.coreDir;
 
   try {
     await fs.access(composerTarget);
@@ -35,7 +35,7 @@ export async function createComposerFile() {
     await fs.copyFile(composerSource, composerTarget);
   }
 
-  if (customWPCoreDir) await updateComposerWPInstallDir(customWPCoreDir);
+  if (wpCoreDir !== "/wordpress") await updateComposerWPInstallDir(wpCoreDir);
 
   await runCommand("composer", [
     "config",
@@ -53,6 +53,7 @@ export async function createComposerFile() {
 
 async function updateComposerWPInstallDir(customWPCoreDir) {
   log(c.detail("Updating WordPress Core directory path in composer.json..."));
+  customWPCoreDir = customWPCoreDir.replace(/^\//, "");
   const installFilePath = path.join(process.cwd(), "composer.json");
   const file = await fs.readFile(installFilePath, "utf8");
   const composerFile = JSON.parse(file);
