@@ -10,45 +10,20 @@ import process, { stdin as input, stdout as output } from "node:process";
 // Import helpers
 import { c, cliPrompts, log } from "../../utils/helpers/index.js";
 
-// import { spawn } from "node:child_process";
-
-// Import configs
-// import { installationConfig } from "../../configs/index.js";
-
-// Import command modules
-// import { initWPSetup } from "../index.js";
-
-// export function runInstallationWizard() {
-//   log(c.headingInfo(` Starting Installation Wizard... `));
-//   log("");
-//   collectSetupSettings();
-//   installSetup();
-// }
-
-// async function collectSetupSettings() {
-//   const welcomeText =
-//     "You will be asked to select several options for your installation, with a final review at the end to confirm.";
-// }
-
-// async function installSetup() {}
-
 // Import install modules
-// import { initFileStructure, initDevToolsets, initDDEVSetup, initWPSetup } from "../index.js";
+import { initFileStructure, initDevToolsets, initDDEVSetup, initWPSetup } from "./index.js";
 
 /**
  * Installs the local development server with DDEV and WordPress.
  */
 export async function runInstaller() {
   await displayStartupPrompt();
-  const promptResults = await cliPrompts();
-  log(`\n`, "promptResults:", promptResults);
+  await cliPrompts();
 
-  // console.log(JSON.stringify(promptResults, (key, value) => (key === "adminPassword" ? "[REDACTED]" : value)));
+  log(`\n${c.headingInfo(" Running installer... ")}\n`);
 
-  // const { dns, projectName, spatieRay, uploadDirs } = installationConfig.ddev;
-  // const { includeToolset, includeVscodeRecommend, includeVscodeWorkspace, initGit } = installationConfig.devToolset;
-
-  // await initFileStructure();
+  // CONTINUE HERE
+  await initFileStructure();
   // - Add <root>/composer.json with roots/wordpress package and WP Core directory (default: "wordpress")
   // - Install WP Core
   // - Add <root>/index.php file
@@ -79,13 +54,13 @@ export async function runInstaller() {
 async function displayStartupPrompt() {
   log(`${c.headingInfo(" Installation Wizard ")}\n`);
   log(
-    c.warn(
-      `${c.em(">")} Make sure you are running this wizard from the directory you want to install your local DDEV server in.`,
-    ),
+    c.warn(`Make sure you are running this wizard from the directory you want to install your local DDEV server in.`),
   );
-  log(`${c.em("> Your current directory is: ")}${c.detail(process.cwd())}`);
+  log(c.warn(`Your current directory is: ${c.detail(process.cwd())}`));
   log(
-    `${c.em("> If that is not where you want your installation, exit the wizard and restart it from the correct directory.")}\n`,
+    c.warn(
+      `If that is not where you want your installation, exit the wizard and restart it from the correct directory.\n`,
+    ),
   );
 
   const rl = readline.createInterface({ input, output });
