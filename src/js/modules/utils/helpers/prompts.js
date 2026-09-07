@@ -10,28 +10,32 @@ import process, { stdin as input, stdout as output } from "node:process";
 // Import packages
 import pkg from "enquirer";
 
-// Import internal configs
+// Import components
+import { displayHeading } from "../../components/index.js";
+
+// Import configs
 import { installationConfig, settingsSchema } from "../../configs/index.js";
 
-// Import internal helpers
-import { c, log } from "./index.js";
+// Import helpers
+import { c, pkgJSON, log } from "./index.js";
 
 const { prompt } = pkg;
+
+/**
+ * The installation execution confirmation prompt when completing the installation wizard.
+ */
+export async function installationExecPrompt() {
+  displayHeading(c.yellow(`Running the ${c.bold(pkgJSON.displayName)} installer...`));
+}
 
 /**
  * The initial prompt when running the installation wizard.
  */
 export async function installationStartupPrompt() {
-  log(`${c.headingInfo(" Installation Wizard ")}\n`);
-  log(
-    c.warn(`Make sure you are running this wizard from the directory you want to install your local DDEV server in.`),
-  );
-  log(c.warn(`Your current directory is: ${c.detail(process.cwd())}`));
-  log(
-    c.warn(
-      `If that is not where you want your installation, exit the wizard and restart it from the correct directory.\n`,
-    ),
-  );
+  log(`\n${c.headingInfo(" Installation Wizard ")}\n`);
+  log(c.warn(`Run this wizard from the directory where you want to install your local DDEV server.`));
+  log(c.warn(`Current directory: ${c.detail(process.cwd())}`));
+  log(c.warn(`To use a different directory, exit the wizard and restart it there.\n`));
 
   const rl = readline.createInterface({ input, output });
   const answer = await rl.question(
@@ -50,7 +54,7 @@ export async function installationStartupPrompt() {
  *
  * @returns {Promise<object>} The installation configuration with the user's responses.
  */
-export async function setupPrompts() {
+export async function settingsPrompts() {
   const headings = {
     ddev: "DDEV Settings",
     wordpress: "WordPress Settings",
