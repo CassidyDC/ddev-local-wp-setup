@@ -5,8 +5,8 @@
 
 // Import helpers
 import {
-  generateProjectNameFromDir,
   generateNamespaceFromName,
+  generateProjectNameFromDir,
   generateSlugFromName,
   generateTextDomainFromName,
 } from "../utils/helpers/generate.js";
@@ -17,10 +17,10 @@ import {
   validateDirSlug,
   validateLogPath,
   validateNamespace,
-  validateWPCoreDir,
   validateWPAdminEmail,
   validateWPAdminPassword,
   validateWPAdminUsername,
+  validateWPCoreDir,
 } from "../utils/helpers/validate.js";
 
 export const settingsSchema = {
@@ -269,6 +269,14 @@ export const settingsSchema = {
       type: "confirm",
       message: "Initialize a local Git repository and .gitignore file for this project?",
       initial: true,
+      hint: "(Only .gitignore will be added if a local repo is already initialized.)",
+    },
+
+    docs: {
+      type: "confirm",
+      message: `Add a /wp-content/docs directory for development documentation?`,
+      initial: true,
+      hint: `(This will add /docs/dev/TODO.md and /docs/references.)`,
     },
 
     toolsetWPContent: {
