@@ -4,6 +4,7 @@
  */
 
 // Import node modules
+import process from "node:process";
 import { readFile } from "fs/promises";
 
 // Import configs
@@ -28,6 +29,7 @@ export const allowedShortFlags = getAllowedArguments(flagsConfig, "flags")[2];
 // Helper constants
 export const log = console.log;
 export const pkgJSON = JSON.parse(await readFile(new URL("../../../../../package.json", import.meta.url), "utf-8"));
+export const rootDirPath = process.cwd();
 
 // User input constants
 export const userCommands = getUserArguments()[0];
