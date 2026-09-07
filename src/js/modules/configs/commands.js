@@ -3,8 +3,8 @@
  * @module configs/commands
  */
 
-// Import commands
-import { runInstaller } from "../commands/install/index.js";
+// Import install command installer
+import { runInstaller } from "../commands/install/installer.js";
 
 export const commandsConfig = {
   install: {

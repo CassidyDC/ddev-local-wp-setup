@@ -1,6 +1,6 @@
 /**
  * INIT WP SETUP
- * @module commands/install/init/wp-setup
+ * @module commands/install/init/wordpress
  */
 
 // Import configs
@@ -9,8 +9,8 @@ import { installationConfig } from "../../../configs/index.js";
 /**
  * Runs the shell commands to install the local DDEV WordPress development server setup.
  */
-export async function initWPSetup() {
-  console.log("Running initWPSetup()");
+export async function initWordPress() {
+  console.log("Running initWordPress()");
 
   const {
     customPluginSlug,

@@ -6,6 +6,6 @@
 /**
  * Initializes the development toolsets.
  */
-export async function initDevToolsets() {
-  console.log("Running initDevToolsets()");
+export async function initToolsets() {
+  console.log("Running initToolsets()");
 }
