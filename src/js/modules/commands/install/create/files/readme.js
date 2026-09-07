@@ -3,7 +3,10 @@
  * @module commands/install/create/files/readme
  */
 
-// - Add wp-content/README.md file
-export async function createReadmeFile(dirPath) {
-  console.log(dirPath);
-}
+// Import helpers
+// import { c, log } from "../../../../utils/helpers/index.js";
+
+/**
+ *
+ */
+export async function createReadmeFile() {}

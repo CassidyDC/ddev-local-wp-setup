@@ -3,7 +3,10 @@
  * @module commands/install/create/files/todo
  */
 
-// - Add wp-content/docs/dev/TODO.md file
-export async function createTodoFile(dirPath) {
-  console.log(dirPath);
-}
+// Import helpers
+// import { c, log } from "../../../../utils/helpers/index.js";
+
+/**
+ *
+ */
+export async function createTodoFile() {}

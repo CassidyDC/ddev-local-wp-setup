@@ -4,25 +4,67 @@
  */
 
 // Import node modules
-import fs from "node:fs/promises";
 import path from "node:path";
+import fs from "node:fs/promises";
 
 // Import helpers
-import { c, log, runCommand } from "../../../../utils/helpers/index.js";
-
-// - Add <root>/composer.json with roots/wordpress package and WP Core directory (default: "wordpress"), then run to install WP Core.
+import { c, log, rootDirPath, runCommand } from "../../../../utils/helpers/index.js";
 
 /**
  * Creates the <root>/composer.json file.
  *
- * @param {string} rootDirPath The DDEV server root path.
  * @param {string} wpCoreDir The dirname for the WordPress Core directory.
  */
-export async function createComposerFile(rootDirPath, wpCoreDir) {
+export async function createComposerFile(wpCoreDir) {
   log(c.detail("Creating `composer.json` file..."));
 
-  const composerSource = new URL("./templates/root/composer.json", import.meta.url);
   const composerTarget = path.join(rootDirPath, "composer.json");
+
+  const composerFileContent = `{
+  "name": "cassidydc/ddev-local-wp-setup",
+  "description": "CassidyDC default local development WordPress server setup with DDEV.",
+  "version": "1.0.0",
+  "keywords": [
+    "ddev",
+    "docker",
+    "local development",
+    "wordpress",
+    "wp"
+  ],
+  "homepage": "https://github.com/CassidyDC/ddev-local-wp-setup/blob/main/README.md",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "CassidyDC",
+      "email": "info@cassidydc.com",
+      "homepage": "https://cassidydc.com"
+    }
+  ],
+  "require": {
+    "php": ">=8.4"
+  },
+  "support": {
+    "issues": "https://github.com/CassidyDC/ddev-local-wp-setup/issues"
+  },
+  "extra": {
+    "wordpress-install-dir": "wordpress"
+  }
+}`;
+
+  const updateComposerWPInstallDir = async () => {
+    log(c.detail("Updating WordPress Core directory path in composer.json..."));
+    wpCoreDir = wpCoreDir.replace(/^\//, "");
+    const installFilePath = path.join(rootDirPath, "composer.json");
+    const file = await fs.readFile(installFilePath, "utf8");
+    const composerFile = JSON.parse(file);
+
+    composerFile.extra = {
+      ...(composerFile.extra || {}),
+      "wordpress-install-dir": wpCoreDir,
+    };
+
+    await fs.writeFile(installFilePath, JSON.stringify(composerFile, null, 2) + "\n", "utf8");
+  };
 
   try {
     await fs.access(composerTarget);
@@ -34,10 +76,10 @@ export async function createComposerFile(rootDirPath, wpCoreDir) {
     );
   } catch {
     // composer.json file does not exist...
-    await fs.copyFile(composerSource, composerTarget);
+    await fs.writeFile(composerTarget, composerFileContent, "utf8");
   }
 
-  if (wpCoreDir !== "/wordpress") await updateComposerWPInstallDir(rootDirPath, wpCoreDir);
+  if (wpCoreDir !== "/wordpress") await updateComposerWPInstallDir();
 
   await runCommand("composer", [
     "config",
@@ -51,19 +93,4 @@ export async function createComposerFile(rootDirPath, wpCoreDir) {
     "--dev",
     "roots/wordpress",
   ]);
-}
-
-async function updateComposerWPInstallDir(rootDirPath, customWPCoreDir) {
-  log(c.detail("Updating WordPress Core directory path in composer.json..."));
-  customWPCoreDir = customWPCoreDir.replace(/^\//, "");
-  const installFilePath = path.join(rootDirPath, "composer.json");
-  const file = await fs.readFile(installFilePath, "utf8");
-  const composerFile = JSON.parse(file);
-
-  composerFile.extra = {
-    ...(composerFile.extra || {}),
-    "wordpress-install-dir": customWPCoreDir,
-  };
-
-  await fs.writeFile(installFilePath, JSON.stringify(composerFile, null, 2) + "\n", "utf8");
 }

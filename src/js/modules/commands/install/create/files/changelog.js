@@ -3,7 +3,10 @@
  * @module commands/install/create/files/changelog
  */
 
-// - Add wp-content/CHANGELOG.md file
-export async function createChangelogFile(dirPath) {
-  console.log(dirPath);
-}
+// Import helpers
+// import { c, log } from "../../../../utils/helpers/index.js";
+
+/**
+ *
+ */
+export async function createChangelogFile() {}
