@@ -6,21 +6,23 @@
 // Import node modules
 import fs from "node:fs/promises";
 import path from "node:path";
-import process from "node:process";
-
-// Import configs
-import { installationConfig } from "../../../../configs/index.js";
 
 // Import helpers
 import { c, log, runCommand } from "../../../../utils/helpers/index.js";
 
 // - Add <root>/composer.json with roots/wordpress package and WP Core directory (default: "wordpress"), then run to install WP Core.
-export async function createComposerFile() {
+
+/**
+ * Creates the <root>/composer.json file.
+ *
+ * @param {string} rootDirPath The DDEV server root path.
+ * @param {string} wpCoreDir The dirname for the WordPress Core directory.
+ */
+export async function createComposerFile(rootDirPath, wpCoreDir) {
   log(c.detail("Creating `composer.json` file..."));
 
   const composerSource = new URL("./templates/root/composer.json", import.meta.url);
-  const composerTarget = path.join(process.cwd(), "composer.json");
-  const wpCoreDir = installationConfig.wordpress.coreDir;
+  const composerTarget = path.join(rootDirPath, "composer.json");
 
   try {
     await fs.access(composerTarget);
@@ -35,7 +37,7 @@ export async function createComposerFile() {
     await fs.copyFile(composerSource, composerTarget);
   }
 
-  if (wpCoreDir !== "/wordpress") await updateComposerWPInstallDir(wpCoreDir);
+  if (wpCoreDir !== "/wordpress") await updateComposerWPInstallDir(rootDirPath, wpCoreDir);
 
   await runCommand("composer", [
     "config",
@@ -51,10 +53,10 @@ export async function createComposerFile() {
   ]);
 }
 
-async function updateComposerWPInstallDir(customWPCoreDir) {
+async function updateComposerWPInstallDir(rootDirPath, customWPCoreDir) {
   log(c.detail("Updating WordPress Core directory path in composer.json..."));
   customWPCoreDir = customWPCoreDir.replace(/^\//, "");
-  const installFilePath = path.join(process.cwd(), "composer.json");
+  const installFilePath = path.join(rootDirPath, "composer.json");
   const file = await fs.readFile(installFilePath, "utf8");
   const composerFile = JSON.parse(file);
 
