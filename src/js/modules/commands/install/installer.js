@@ -3,27 +3,20 @@
  * @module commands/install/installer
  */
 
-// Import node modules
-import readline from "node:readline/promises";
-import process, { stdin as input, stdout as output } from "node:process";
-
 // Import helpers
-import { c, cliPrompts, log } from "../../utils/helpers/index.js";
+// import { c, setupPrompts, log } from "../../utils/helpers/index.js";
 
-// Import install modules
-import { initFileStructure, initDevToolsets, initDDEVSetup, initWPSetup } from "./index.js";
+// Import installer initiation modules.
+// import { initFilesystem, initToolsets, initDDEV, initWordPress } from "./init/index.js";
 
 /**
- * Installs the local development server with DDEV and WordPress.
+ * Installs the local development DDEV WordPress server.
  */
 export async function runInstaller() {
-  await displayStartupPrompt();
-  await cliPrompts();
-
-  log(`\n${c.headingInfo(" Running installer... ")}\n`);
-
-  // CONTINUE HERE
-  await initFileStructure();
+  // await installationStartupPrompt();
+  // await setupPrompts();
+  // log(`\n${c.headingInfo(" Running installer... ")}\n`);
+  // await initFilesystem();
   // - Add <root>/composer.json with roots/wordpress package and WP Core directory (default: "wordpress")
   // - Install WP Core
   // - Add <root>/index.php file
@@ -36,41 +29,14 @@ export async function runInstaller() {
   // - Create <root>/wp-content/logs directory, unless logs turned off
   // - Create <root/wp-content/docs/dev & reference directories with starting files.
   // - Create <root>/wp-content/README.md & CHANGELOG.md
-
-  // await initDevToolsets();
+  // await initToolsets();
   // - Add CassidyDC Toolsets to any custom plugin/theme that includes it
   // - Add CassidyDC Toolset to <root>/wp-content
   // - Init Git with .gitignore
-
-  // await initDDEVSetup();
+  // await initDDEV();
   // - Add ray connection files:
   //    - Add <root>/.ddev/php/php-ray.ini
   //    - Add <root>/.ddev/web-build/Dockerfile
   //    - Add <root>/ray.php
-
-  // await initWPSetup();
-}
-
-async function displayStartupPrompt() {
-  log(`${c.headingInfo(" Installation Wizard ")}\n`);
-  log(
-    c.warn(`Make sure you are running this wizard from the directory you want to install your local DDEV server in.`),
-  );
-  log(c.warn(`Your current directory is: ${c.detail(process.cwd())}`));
-  log(
-    c.warn(
-      `If that is not where you want your installation, exit the wizard and restart it from the correct directory.\n`,
-    ),
-  );
-
-  const rl = readline.createInterface({ input, output });
-  const answer = await rl.question(
-    `${c.info(`Press ${c.bold("Enter")} to continue, or type ${c.bold("exit")} to quit: `)}`,
-  );
-
-  rl.close();
-
-  if (answer.trim().toLowerCase() === "exit") {
-    process.exit(0);
-  }
+  // await initWordPress();
 }
