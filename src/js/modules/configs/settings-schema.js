@@ -48,12 +48,6 @@ export const settingsSchema = {
   },
 
   wordpress: {
-    projectType: {
-      type: "select",
-      message: "What are you developing for this project?",
-      choices: ["Theme", "Plugin", "Both"],
-    },
-
     adminUsername: {
       type: "input",
       message: "WP Admin Username:",
@@ -107,6 +101,13 @@ export const settingsSchema = {
       hint: `(If "n" is selected, permalinks will use the default date format.)`,
     },
 
+    homepage: {
+      type: "confirm",
+      message: `Add a non-blog homepage?`,
+      initial: true,
+      hint: `(This creates a new blank page named "Homepage" and sets it as the WordPress front page.)`,
+    },
+
     debug: {
       type: "confirm",
       message: "Enable WordPress debugging?",
@@ -144,11 +145,10 @@ export const settingsSchema = {
       enabled: ({ wordpress }) => wordpress.debugLog,
     },
 
-    wpEnvType: {
+    projectType: {
       type: "select",
-      message: "WP_ENVIRONMENT_TYPE:",
-      choices: ["Local", "Development", "Staging", "Production"],
-      hint: "Use 'Local' unless you have a specific need for another type.",
+      message: "What are you developing for this project?",
+      choices: ["Theme", "Plugin", "Both"],
     },
 
     wpDevMode: {
@@ -157,11 +157,11 @@ export const settingsSchema = {
       choices: ["Theme", "Plugin", "Core", "All"],
     },
 
-    homepage: {
-      type: "confirm",
-      message: `Add a non-blog homepage?`,
-      initial: true,
-      hint: `(This creates a new blank page named "Homepage" and sets it as the WordPress front page.)`,
+    wpEnvType: {
+      type: "select",
+      message: "WP_ENVIRONMENT_TYPE:",
+      choices: ["Local", "Development", "Staging", "Production"],
+      hint: "Use 'Local' unless you have a specific need for another type.",
     },
   },
 
