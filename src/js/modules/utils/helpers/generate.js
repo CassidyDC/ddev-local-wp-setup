@@ -15,6 +15,8 @@ import process from "node:process";
 export function generateNamespaceFromName(name) {
   return name
     .trim()
+    .replace(/[^a-zA-Z0-9_]+/g, "") // Remove any non-letter, non-number, or non-underscore characters.
+    .replace(/^[^a-zA-Z_]+/, "") // Ensure the name starts with a letter or underscore.
     .split(/\s+/)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join("");
@@ -42,15 +44,9 @@ export function generateProjectNameFromDir() {
  * @returns {string} The slug string.
  */
 export function generateSlugFromName(name) {
-  return name.trim().replace(/\s+/g, "-").toLowerCase();
-}
-
-/**
- * Generates a text domain from a string.
- *
- * @param {string} name The string being transformed into a text domain.
- * @returns {string} The text domain string.
- */
-export function generateTextDomainFromName(name) {
-  return name.trim().replace(/\s+/g, "").toLowerCase();
+  return name
+    .trim()
+    .replace(/\s+/g, "-") // Replace spaces with a dash.
+    .toLowerCase() // Make all letters lowercase.
+    .replace(/[^a-z0-9-]+/g, ""); // Remove any non-letter, non-number, or non-dash characters.
 }
