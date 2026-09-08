@@ -24,7 +24,7 @@ const { prompt } = pkg;
  * The installation execution confirmation prompt when completing the installation wizard.
  */
 export async function installationExecPrompt() {
-  log(`\nAll settings have been collected.\n`);
+  log(`\n${c.success("All settings have been collected.")}\n`);
 
   const { answer } = await prompt({
     type: "input",
