@@ -3,6 +3,11 @@
  * @module utils/helpers/validate
  */
 
+/**
+ * Validates the directory slug.
+ *
+ * @param {string} value The string being validated.
+ */
 export function validateDirSlug(value) {
   const slug = value.trim();
 
@@ -17,13 +22,19 @@ export function validateDirSlug(value) {
   return true;
 }
 
+/**
+ * Validates the installer prompt string.
+ *
+ * @param {string} value The string being validated.
+ */
 export function validateExecInstaller(value) {
   const answer = value.trim().toLowerCase();
   return ["run", "exit"].includes(answer) || 'Type "run" or "exit".';
 }
 
 /**
- * Validates the log file path
+ * Validates the log file path.
+ *
  * @param {string} value The path being validated.
  */
 export function validateLogPath(value) {
@@ -35,6 +46,11 @@ export function validateLogPath(value) {
   return true;
 }
 
+/**
+ * Validates the namespace.
+ *
+ * @param {string} value The namespace string being validated.
+ */
 export function validateNamespace(value) {
   const namespace = value.trim();
 
@@ -84,7 +100,8 @@ export function validateWPAdminEmail(value) {
 }
 
 /**
- * Validates a WP Admin user password
+ * Validates a WP Admin user password.
+ *
  * @param {string} value The password being validated.
  */
 export function validateWPAdminPassword(value) {
@@ -100,7 +117,8 @@ export function validateWPAdminPassword(value) {
 }
 
 /**
- * Validates a WP Admin username
+ * Validates a WP Admin username.
+ *
  * @param {string} value The username being validated.
  */
 export function validateWPAdminUsername(value) {
@@ -122,7 +140,8 @@ export function validateWPAdminUsername(value) {
 }
 
 /**
- * Validates the WP Core directory
+ * Validates the WP Core directory.
+ *
  * @param {string} value The directory being validated.
  */
 export function validateWPCoreDir(value) {
