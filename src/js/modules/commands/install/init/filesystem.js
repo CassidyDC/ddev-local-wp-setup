@@ -4,7 +4,7 @@
  */
 
 // Import filesystem creators
-import { createFilesystemDirs, createFilesystemFiles } from "../create/index.js";
+import { createFilesystemDirs, createFilesystemFiles } from "../index.js";
 
 /**
  * Initializes the filesystem structure.

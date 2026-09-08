@@ -7,7 +7,7 @@
 import { installationExecPrompt, installationStartupPrompt, settingsPrompts } from "../../utils/helpers/index.js";
 
 // Import installer initiation modules.
-import { initFilesystem, initToolsets, initDDEV, initWordPress } from "./init/index.js";
+import { initFilesystem, initToolsets, initDDEV, initWordPress } from "./index.js";
 
 /**
  * Installs the local development DDEV WordPress server.

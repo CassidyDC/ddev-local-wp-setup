@@ -23,7 +23,7 @@ import {
   createReadmeFile,
   createTodoFile,
   createWPCliFile,
-} from "./index.js";
+} from "../index.js";
 
 /**
  * Creates the local server files.
