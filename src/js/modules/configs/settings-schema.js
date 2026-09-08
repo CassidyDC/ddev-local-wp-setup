@@ -76,14 +76,14 @@ export const settingsSchema = {
     siteTagname: {
       type: "input",
       message: "Site Tagline:",
-      hint: `(Leave blank if a tagname is not desired.)`,
+      hint: `(Leave blank if a tagline is not desired.)`,
     },
 
     coreDir: {
       type: "input",
       message: "WordPress Core Directory:",
       initial: "/wordpress",
-      hint: `(Note: /wp-content will be installed outside the WordPress Core directory.)`,
+      hint: c.dim(`(Note: ${c.em("/wp-content")} will be installed outside the WordPress Core directory.)`),
       validate: validateWPCoreDir,
     },
 
@@ -96,7 +96,7 @@ export const settingsSchema = {
 
     postnamePermalinks: {
       type: "confirm",
-      message: c.bold(`Use ${c.yellow("%%postname%%")} for the WP permalinks?`),
+      message: c.bold(`Use ${c.em("%%postname%%")} for the WP permalinks?`),
       initial: true,
       hint: `(If "n" is selected, permalinks will use the default date format.)`,
     },
@@ -153,13 +153,13 @@ export const settingsSchema = {
 
     wpDevMode: {
       type: "select",
-      message: `WP_DEVELOPMENT_MODE:`,
+      message: `Set the WP_DEVELOPMENT_MODE:`,
       choices: ["Theme", "Plugin", "Core", "All"],
     },
 
     wpEnvType: {
       type: "select",
-      message: "WP_ENVIRONMENT_TYPE:",
+      message: "Set the WP_ENVIRONMENT_TYPE:",
       choices: ["Local", "Development", "Staging", "Production"],
       hint: "Use 'Local' unless you have a specific need for another type.",
     },
@@ -169,6 +169,7 @@ export const settingsSchema = {
     custom: {
       type: "confirm",
       message: `Create a new custom plugin directory? `,
+      hint: `(Press 'y' if you are developing a new custom plugin.)`,
       enabled: ({ wordpress }) => ["Plugin", "Both"].includes(wordpress.projectType),
     },
 
@@ -192,7 +193,7 @@ export const settingsSchema = {
       type: "input",
       message: "Custom plugin namespace:",
       initial: ({ plugin }) => `CassidyDC\\${generateNamespaceFromName(plugin.customName)}`,
-      hint: "(Use only lowercase letter, digits, and dashes, such as `cassidydc-core-plugin`)",
+      hint: "(Use PascalCase syntax with no spaces and delimited by backslashes, such as `CassidyDC\\CleanCorePlugin`.)",
       validate: validateNamespace,
       enabled: ({ plugin }) => plugin.custom,
     },
@@ -209,6 +210,7 @@ export const settingsSchema = {
     custom: {
       type: "confirm",
       message: `Create a new custom theme directory? `,
+      hint: `(Press 'y' if you are developing a new custom theme.)`,
       enabled: ({ wordpress }) => ["Theme", "Both"].includes(wordpress.projectType),
     },
 
@@ -231,7 +233,7 @@ export const settingsSchema = {
       type: "input",
       message: "Custom theme namespace:",
       initial: ({ theme }) => `CassidyDC\\${generateNamespaceFromName(theme.customName)}`,
-      hint: "(Use only lowercase letter, digits, and dashes, such as `cassidydc-block-theme`)",
+      hint: "(Use PascalCase syntax with no spaces and delimited by backward slashes, such as `CassidyDC\\StarterBlockTheme`.)",
       validate: validateNamespace,
       enabled: ({ theme }) => theme.custom,
     },
@@ -256,14 +258,14 @@ export const settingsSchema = {
       type: "confirm",
       message: "Initialize a local Git repository and .gitignore file for this project?",
       initial: true,
-      hint: "(Only .gitignore will be added if a local repo is already initialized.)",
+      hint: `(If a local Git repo already exists, but ${c.em(".gitignore")} doesn't, the file will be created, unless you select 'n')`,
     },
 
     docs: {
       type: "confirm",
-      message: `Add a /wp-content/docs directory for development documentation?`,
+      message: `Add a ${c.em("/wp-content/docs")} directory for development documentation?`,
       initial: true,
-      hint: `(This will add /docs/dev/TODO.md and /docs/references.)`,
+      hint: "(This will add `/docs/dev/TODO.md` and `/docs/references`.)",
     },
 
     toolsetWPContent: {
@@ -290,12 +292,14 @@ export const settingsSchema = {
       type: "confirm",
       message: `Add the CassidyDC VSCode Extensions Recommendations file? `,
       initial: true,
+      hint: "(This will create `/wp-content/.vscode/extensions.json`.",
     },
 
     vscodeWorkspaceSettings: {
       type: "confirm",
       message: `Add the CassidyDC VSCode Workspace Settings file? `,
       initial: true,
+      hint: "(This will create `/wp-content/.vscode/settings.json`.",
     },
   },
 };
