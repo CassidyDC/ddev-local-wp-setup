@@ -17,6 +17,11 @@ export function validateDirSlug(value) {
   return true;
 }
 
+export function validateExecInstaller(value) {
+  const answer = value.trim().toLowerCase();
+  return ["run", "exit"].includes(answer) || 'Type "run" or "exit".';
+}
+
 /**
  * Validates the log file path
  * @param {string} value The path being validated.
