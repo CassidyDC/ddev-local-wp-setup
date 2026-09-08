@@ -9,12 +9,12 @@
     "url": "https://cassidydc.com"
   },
   "bin": {
-    "ddev-wp": "./src/js/index.js"
+    "ddev-wp": "./src/js/init.js"
   },
   "files": [
     "src"
   ],
-  "main": "src/js/index.js",
+  "main": "src/js/init.js",
   "type": "module",
   "repository": {
     "type": "git",
