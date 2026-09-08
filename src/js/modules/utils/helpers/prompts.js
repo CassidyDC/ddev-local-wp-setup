@@ -4,8 +4,7 @@
  */
 
 // Import node modules
-import readline from "node:readline/promises";
-import process, { stdin as input, stdout as output } from "node:process";
+import process from "node:process";
 
 // Import packages
 import pkg from "enquirer";
@@ -17,7 +16,7 @@ import { displayHeading } from "../../components/index.js";
 import { installationConfig, settingsSchema } from "../../configs/index.js";
 
 // Import helpers
-import { c, pkgJSON, log } from "./index.js";
+import { c, pkgJSON, log, validateExecInstaller } from "./index.js";
 
 const { prompt } = pkg;
 
@@ -25,6 +24,19 @@ const { prompt } = pkg;
  * The installation execution confirmation prompt when completing the installation wizard.
  */
 export async function installationExecPrompt() {
+  log(`\nAll settings have been collected.\n`);
+
+  const { answer } = await prompt({
+    type: "input",
+    name: "answer",
+    message: c.info(`Type ${c.bold("run")} to start the installer, or type ${c.bold("exit")} to quit:`),
+    validate: validateExecInstaller,
+  });
+
+  if (answer.trim().toLowerCase() === "exit") {
+    process.exit(0);
+  }
+
   displayHeading(c.yellow(`Running the ${c.bold(pkgJSON.displayName)} installer...`));
 }
 
@@ -37,12 +49,11 @@ export async function installationStartupPrompt() {
   log(c.warn(`Current directory: ${c.detail(process.cwd())}`));
   log(c.warn(`To use a different directory, exit the wizard and restart it there.\n`));
 
-  const rl = readline.createInterface({ input, output });
-  const answer = await rl.question(
-    `${c.info(`Press ${c.bold("Enter")} to continue, or type ${c.bold("exit")} to quit: `)}`,
-  );
-
-  rl.close();
+  const { answer } = await prompt({
+    type: "input",
+    name: "answer",
+    message: c.info(`Press ${c.bold("Enter")} to continue, or type ${c.bold("exit")} to quit:`),
+  });
 
   if (answer.trim().toLowerCase() === "exit") {
     process.exit(0);
