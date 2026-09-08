@@ -17,6 +17,7 @@ const config = {
         // Always put object properties and array items on a newline
         printWidth: 1,
         bracketSpacing: false,
+        trailingComma: "none",
       },
     },
   ],
