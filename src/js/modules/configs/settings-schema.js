@@ -8,7 +8,6 @@ import {
   generateNamespaceFromName,
   generateProjectNameFromDir,
   generateSlugFromName,
-  generateTextDomainFromName,
 } from "../utils/helpers/generate.js";
 
 import { c } from "../utils/helpers/styles.js";
@@ -196,13 +195,6 @@ export const settingsSchema = {
       enabled: ({ plugin }) => plugin.custom,
     },
 
-    customTextDomain: {
-      type: "input",
-      message: "Custom plugin text domain:",
-      initial: ({ plugin }) => generateTextDomainFromName(plugin.customName),
-      enabled: ({ plugin }) => plugin.custom,
-    },
-
     ai1wm: {
       type: "confirm",
       message: `Install the All-in-One WP Migration plugin?`,
@@ -239,13 +231,6 @@ export const settingsSchema = {
       initial: ({ theme }) => `CassidyDC\\${generateNamespaceFromName(theme.customName)}`,
       hint: "(Use only lowercase letter, digits, and dashes, such as `cassidydc-block-theme`)",
       validate: validateNamespace,
-      enabled: ({ theme }) => theme.custom,
-    },
-
-    customTextDomain: {
-      type: "input",
-      message: "Custom theme text domain:",
-      initial: ({ theme }) => generateTextDomainFromName(theme.customName),
       enabled: ({ theme }) => theme.custom,
     },
 
