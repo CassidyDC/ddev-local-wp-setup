@@ -48,7 +48,23 @@ export function validateNamespace(value) {
 }
 
 /**
- * Validates a WP Admin user email address
+ * Validates that a string is not empty.
+ *
+ * @param {string} value The string being validated.
+ */
+export function validateString(value) {
+  const string = value.trim();
+
+  if (!string) {
+    return "At least one character is required.";
+  }
+
+  return true;
+}
+
+/**
+ * Validates a WP Admin user email address.
+ *
  * @param {string} value The email being validated.
  */
 export function validateWPAdminEmail(value) {

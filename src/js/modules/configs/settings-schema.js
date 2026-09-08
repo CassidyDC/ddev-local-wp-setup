@@ -16,6 +16,7 @@ import {
   validateDirSlug,
   validateLogPath,
   validateNamespace,
+  validateString,
   validateWPAdminEmail,
   validateWPAdminPassword,
   validateWPAdminUsername,
@@ -174,6 +175,7 @@ export const settingsSchema = {
     customName: {
       type: "input",
       message: "Custom plugin name:",
+      validate: validateString,
       enabled: ({ plugin }) => plugin.custom,
     },
 
