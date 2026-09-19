@@ -1,0 +1,31 @@
+# DDEV Local WP Setup - Filesystem
+
+- root
+  - /.ddev
+    - /php
+    - /web-build
+  - /wordpress (WP Core installation)
+  - /wp-content
+    - /.vscode
+      - `extensions.json`
+      - `settings.json`
+    - /docs
+      - /dev
+        - `TODO.md`
+      - /reference
+    - /logs
+    - /plugins
+      - /_custom-plugin_
+    - /themes
+      - /_custom-theme_
+    - {toolset files}:
+      - `.editorconfig`
+      - `.gitignore`
+      - `.markdownlint-cli2.jsonc`
+      - `.prettierignore`
+      - `.eslint.config.js`
+      - `lefthook.yml`
+      - `package.json`
+      - `prettier.config.js`
+      - `CHANGELOG.md`
+      - `README.md`

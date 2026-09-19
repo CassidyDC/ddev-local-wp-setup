@@ -1,6 +1,6 @@
 # Dependencies
 
-The purpose for each dependency used in the DDEV Local WP Setup CLI:
+The purpose for each dependency used in the `DDEV Local WP Setup` CLI:
 
 ## Ansi Colors
 
