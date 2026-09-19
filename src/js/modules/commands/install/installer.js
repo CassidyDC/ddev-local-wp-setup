@@ -7,7 +7,12 @@
 import { createConfigFile } from "./create/files/config.js";
 
 // Import helpers
-import { installationExecPrompt, installationStartupPrompt, settingsPrompts } from "../../utils/helpers/index.js";
+import {
+  checkForExistingConfig,
+  installationExecPrompt,
+  installationStartupPrompt,
+  settingsPrompts,
+} from "../../utils/helpers/index.js";
 
 // Import installer initiation modules.
 import { initFilesystem, initToolsets, initDDEV, initWordPress } from "./index.js";
@@ -16,10 +21,11 @@ import { initFilesystem, initToolsets, initDDEV, initWordPress } from "./index.j
  * Installs the local development DDEV WordPress server.
  */
 export async function runInstaller() {
-  await installationStartupPrompt();
-
-  const userSettingsConfig = await settingsPrompts();
-
+  const existingConfig = await checkForExistingConfig();
+  if (!existingConfig) {
+    await installationStartupPrompt();
+  }
+  const userSettingsConfig = await settingsPrompts(existingConfig);
   await createConfigFile(userSettingsConfig);
   await installationExecPrompt();
   await initFilesystem(); // CONTINUE HERE

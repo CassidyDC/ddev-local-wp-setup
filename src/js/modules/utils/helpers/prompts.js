@@ -5,6 +5,8 @@
 
 // Import node modules
 import process from "node:process";
+import path from "node:path";
+import { readFile, stat } from "node:fs/promises";
 
 // Import packages
 import pkg from "enquirer";
@@ -19,6 +21,48 @@ import { installationConfig, settingsSchema } from "../../configs/index.js";
 import { c, pkgJSON, log, validateExecInstaller } from "./index.js";
 
 const { prompt } = pkg;
+
+/**
+ * Offers to reuse the configuration in the current directory, if present.
+ */
+export async function checkForExistingConfig() {
+  const configPath = path.join(process.cwd(), "ddev-local-wp-setup-config.json");
+
+  try {
+    if (!(await stat(configPath)).isFile()) return;
+  } catch (error) {
+    if (error.code === "ENOENT") return;
+    throw error;
+  }
+
+  if (!(await configExistsPrompt())) return;
+
+  const config = JSON.parse(await readFile(configPath, "utf8"));
+  if (!config || typeof config !== "object" || Array.isArray(config)) {
+    throw new Error("The existing configuration must be a JSON object.");
+  }
+
+  return config;
+}
+
+/**
+ * Asks whether to reuse the existing configuration or start from scratch.
+ */
+export async function configExistsPrompt() {
+  const existingConfigFilepath = path.join(process.cwd(), "ddev-local-wp-setup-config.json");
+  const continueChoice = "Continue with the existing config.";
+  const { useExistingConfig } = await prompt({
+    type: "select",
+    name: "useExistingConfig",
+    message: `An existing configuration was found at ${existingConfigFilepath}. How would you like to proceed?`,
+    choices: [
+      continueChoice,
+      `Start the installation wizard from scratch. ${c.dim("(A backup of your existing config will be saved.)")}`,
+    ],
+  });
+
+  return useExistingConfig === continueChoice;
+}
 
 /**
  * The installation execution confirmation prompt when completing the installation wizard.
@@ -61,11 +105,12 @@ export async function installationStartupPrompt() {
 }
 
 /**
- * Collect answers sequentially so defaults and conditions can use earlier answers.
+ * Collect missing answers sequentially using saved settings and earlier answers.
  *
+ * @param {object} existingConfig Previously saved settings to reuse.
  * @returns {Promise<object>} The installation configuration with the user's responses.
  */
-export async function settingsPrompts() {
+export async function settingsPrompts(existingConfig = {}) {
   const headings = {
     ddev: "DDEV Settings",
     wordpress: "WordPress Settings",
@@ -75,16 +120,22 @@ export async function settingsPrompts() {
   };
 
   for (const section of Object.keys(settingsSchema)) {
-    installationConfig[section] = {};
+    installationConfig[section] = { ...existingConfig[section] };
   }
 
   for (const [section, settings] of Object.entries(settingsSchema)) {
-    log(`\n${c.headingInfo(` ${headings[section]} `)}\n`);
+    let headingShown = false;
 
     for (const [name, setting] of Object.entries(settings)) {
       const { enabled = true, initial, ...options } = setting;
       const isEnabled = typeof enabled === "function" ? enabled(installationConfig) : enabled;
       if (!isEnabled) continue;
+      if (Object.hasOwn(installationConfig[section], name)) continue;
+
+      if (!headingShown) {
+        log(`\n${c.headingInfo(` ${headings[section]} `)}\n`);
+        headingShown = true;
+      }
 
       const resolvedInitial = typeof initial === "function" ? initial(installationConfig) : initial;
       const answer = await prompt({ ...options, name, initial: resolvedInitial });
