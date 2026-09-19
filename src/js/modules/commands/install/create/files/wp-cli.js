@@ -5,6 +5,7 @@
 
 // Import node modules
 import path from "node:path";
+import { existsSync } from "node:fs";
 import { writeFile } from "node:fs/promises";
 
 // Import helpers
@@ -17,6 +18,12 @@ import { c, log, rootDirPath } from "../../../../utils/helpers/index.js";
  * @param {string} wpCoreDir The dirname for the WordPress Core directory.
  */
 export async function createWPCliFile(wpCoreDir) {
+  const filename = "wp-cli.yml";
+  if (existsSync(path.join(rootDirPath, filename))) {
+    log(c.dim(`The ${c.em(`${filename}`)} file already exists. Skipping creation.`));
+    return;
+  }
+
   log(c.detail("Creating `wp-cli.yml` file..."));
   await writeFile(path.join(rootDirPath, "wp-cli.yml"), `path: ${wpCoreDir}`);
 }

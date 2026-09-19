@@ -5,6 +5,7 @@
 
 // Import node modules
 import path from "node:path";
+import { existsSync } from "node:fs";
 import { writeFile } from "node:fs/promises";
 
 // Import helpers
@@ -14,9 +15,13 @@ import { c, log, rootDirPath } from "../../../../utils/helpers/index.js";
  * Creates <root>/wp-content/CHANGELOG.md file.
  */
 export async function createChangelogFile() {
-  log(c.detail("Creating `wp-content/CHANGELOG.md` file..."));
+  const filename = "wp-content/CHANGELOG.md";
+  if (existsSync(path.join(rootDirPath, filename))) {
+    log(c.dim(`The ${c.em(`${filename}`)} file already exists. Skipping creation.`));
+    return;
+  }
 
-  console.log(rootDirPath);
+  log(c.detail(`Creating ${c.em("wp-content/CHANGELOG.md")} file...`));
 
   const changelogFile = path.join(`${rootDirPath}/wp-content`, "CHANGELOG.md");
   const changelogFileContent = `# Changelog

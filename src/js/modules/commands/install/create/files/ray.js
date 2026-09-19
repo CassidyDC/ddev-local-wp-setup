@@ -5,6 +5,7 @@
 
 // Import node modules
 import path from "node:path";
+import { existsSync } from "node:fs";
 import { writeFile } from "node:fs/promises";
 
 // Import helpers
@@ -14,7 +15,13 @@ import { c, log, rootDirPath } from "../../../../utils/helpers/index.js";
  * Creates a `<root>/ray.php` file.
  */
 export async function createRayFile() {
-  log(c.detail("Creating `.ddev/web-build/Dockerfile` file..."));
+  const filename = "ray.php";
+  if (existsSync(path.join(rootDirPath, filename))) {
+    log(c.dim(`The ${c.em(`${filename}`)} file already exists. Skipping creation.`));
+    return;
+  }
+
+  log(c.detail("Creating `ray.php` file..."));
 
   const rayFile = path.join(`${rootDirPath}`, "ray.php");
   const rayFileContent = `<?php
@@ -49,7 +56,7 @@ return [
 	/*
 	 * Absolute base path for your sites or projects on your local computer where your IDE or code editor is running on.
 	 */
-	'local_path'  => ${rootDirPath},
+	'local_path'  => '${rootDirPath}',
 ];
 `;
 

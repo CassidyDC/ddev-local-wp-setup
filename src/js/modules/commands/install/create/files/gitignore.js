@@ -5,6 +5,7 @@
 
 // Import node modules
 import path from "node:path";
+import { existsSync } from "node:fs";
 import { writeFile } from "node:fs/promises";
 
 // Import helpers
@@ -14,6 +15,12 @@ import { c, log, rootDirPath } from "../../../../utils/helpers/index.js";
  * Creates a `wp-content/.gitignore` file.
  */
 export async function createGitignoreFile(customPluginConfig, customThemeConfig) {
+  const filename = "wp-content/.gitignore";
+  if (existsSync(path.join(rootDirPath, filename))) {
+    log(c.dim(`The ${c.em(`${filename}`)} file already exists. Skipping creation.`));
+    return;
+  }
+
   log(c.detail("Creating `wp-content/.gitignore` file..."));
 
   const gitignoreFile = path.join(`${rootDirPath}/wp-content`, ".gitignore");

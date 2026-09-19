@@ -31,7 +31,7 @@ import {
 export async function createFilesystemFiles() {
   const wpCoreDir = installationConfig?.wordpress?.coreDir.replace(/^\/+/, "");
 
-  log(c.headingInfo(" Creating files... "));
+  log(`\n${c.headingInfo(" Creating files... ")}\n`);
   await createIndexFile(wpCoreDir); // index.php - tells DDEV where WP Core is installed.
   await createWPCliFile(wpCoreDir); // wp-cli.yml - tells DDEV where to run WP CLI.
   await createReadmeFile(); // README.md - Repo readme file.
@@ -40,7 +40,7 @@ export async function createFilesystemFiles() {
   if (installationConfig?.plugins?.customStarterFiles) await createCustomPluginStarterFile();
   if (installationConfig?.themes?.customStarterFiles) await createCustomThemeStarterFile();
   if (installationConfig?.devConfig?.git) await createGitignoreFile();
-  if (installationConfig?.ddev?.ray) {
+  if (installationConfig?.ddev?.spatieRay) {
     await createDockerfileFile();
     await createPhpRayFile();
     await createRayFile();
