@@ -17,5 +17,11 @@ import { c, log, rootDirPath } from "../../../../utils/helpers/index.js";
  */
 export async function createIndexFile(wpCoreDir) {
   log(c.detail("Creating `index.php` file..."));
-  await writeFile(path.join(rootDirPath, "index.php"), `<?php require_once __DIR__ '/${wpCoreDir}/index.php`);
+
+  const indexPhpFile = path.join(`${rootDirPath}`, "index.php");
+  const indexPhpFileContent = `<?php
+
+  require_once __DIR__ '/${wpCoreDir}/index.php';`;
+
+  await writeFile(indexPhpFile, indexPhpFileContent);
 }

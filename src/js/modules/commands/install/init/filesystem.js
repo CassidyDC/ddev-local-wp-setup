@@ -10,6 +10,6 @@ import { createFilesystemDirs, createFilesystemFiles } from "../index.js";
  * Initializes the filesystem structure.
  */
 export async function initFilesystem() {
-  createFilesystemDirs();
-  // createFilesystemFiles();
+  await createFilesystemDirs();
+  await createFilesystemFiles();
 }

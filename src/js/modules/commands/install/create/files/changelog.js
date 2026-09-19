@@ -16,6 +16,8 @@ import { c, log, rootDirPath } from "../../../../utils/helpers/index.js";
 export async function createChangelogFile() {
   log(c.detail("Creating `wp-content/CHANGELOG.md` file..."));
 
+  console.log(rootDirPath);
+
   const changelogFile = path.join(`${rootDirPath}/wp-content`, "CHANGELOG.md");
   const changelogFileContent = `# Changelog
 

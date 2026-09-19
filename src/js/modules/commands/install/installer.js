@@ -3,6 +3,9 @@
  * @module commands/install/installer
  */
 
+// Import file creators
+import { createConfigFile } from "./create/files/user-settings-config.js";
+
 // Import helpers
 import { installationExecPrompt, installationStartupPrompt, settingsPrompts } from "../../utils/helpers/index.js";
 
@@ -14,7 +17,10 @@ import { initFilesystem, initToolsets, initDDEV, initWordPress } from "./index.j
  */
 export async function runInstaller() {
   await installationStartupPrompt();
-  await settingsPrompts();
+
+  const userSettingsConfig = await settingsPrompts();
+
+  await createConfigFile(userSettingsConfig);
   await installationExecPrompt();
   await initFilesystem(); // CONTINUE HERE
   // await initToolsets();
