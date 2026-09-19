@@ -16,7 +16,7 @@ export async function runInstaller() {
   await installationStartupPrompt();
   await settingsPrompts();
   await installationExecPrompt();
-  await initFilesystem();
+  await initFilesystem(); // CONTINUE HERE
   // await initToolsets();
   // await initDDEV();
   // await initWordPress();

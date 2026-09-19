@@ -108,7 +108,7 @@ export async function createFilesystemDirs() {
   // If selected, create /wp-content/docs directory.
   if (includeDocsDir) {
     const docsPath = path.join(wpContentPath, "docs");
-    const docsDirectories = ["dev", "references"];
+    const docsDirectories = ["dev", "reference"];
 
     for (const docsDirectory of docsDirectories) {
       const docsDirectoryPath = path.join(docsPath, docsDirectory);
