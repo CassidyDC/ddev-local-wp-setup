@@ -1,6 +1,6 @@
 /**
  * CREATE DDEV-LOCAL-WP-SETUP-CONFIG.JSON FILE
- * @module commands/install/create/files/user-settings-config
+ * @module commands/install/create/files/config
  */
 
 // Import node modules

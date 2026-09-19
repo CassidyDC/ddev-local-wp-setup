@@ -4,7 +4,7 @@
  */
 
 // Import file creators
-import { createConfigFile } from "./create/files/user-settings-config.js";
+import { createConfigFile } from "./create/files/config.js";
 
 // Import helpers
 import { installationExecPrompt, installationStartupPrompt, settingsPrompts } from "../../utils/helpers/index.js";
