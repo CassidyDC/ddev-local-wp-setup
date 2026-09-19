@@ -26,7 +26,7 @@ export async function runInstaller() {
     await installationStartupPrompt();
   }
   const userSettingsConfig = await settingsPrompts(existingConfig);
-  await createConfigFile(userSettingsConfig);
+  await createConfigFile(userSettingsConfig, existingConfig);
   await installationExecPrompt();
   await initFilesystem(); // CONTINUE HERE
   // await initToolsets();

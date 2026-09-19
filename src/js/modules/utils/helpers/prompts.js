@@ -50,18 +50,28 @@ export async function checkForExistingConfig() {
  */
 export async function configExistsPrompt() {
   const existingConfigFilepath = path.join(process.cwd(), "ddev-local-wp-setup-config.json");
-  const continueChoice = "Continue with the existing config.";
+
+  log(c.warn(`An existing configuration file was found at: ${c.detail(existingConfigFilepath)}\n`));
+
   const { useExistingConfig } = await prompt({
     type: "select",
     name: "useExistingConfig",
-    message: `An existing configuration was found at ${existingConfigFilepath}. How would you like to proceed?`,
+    message: `How would you like to proceed?`,
     choices: [
-      continueChoice,
-      `Start the installation wizard from scratch. ${c.dim("(A backup of your existing config will be saved.)")}`,
+      {
+        name: "continue",
+        message: "Continue with the existing config.",
+        hint: "(You will be prompted for any missing details.)",
+      },
+      {
+        name: "restart",
+        message: "Start the installation wizard from scratch.",
+        hint: "(A backup of your existing config will be saved.)",
+      },
     ],
   });
 
-  return useExistingConfig === continueChoice;
+  return useExistingConfig === "continue";
 }
 
 /**
