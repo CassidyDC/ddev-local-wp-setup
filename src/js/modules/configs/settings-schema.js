@@ -276,14 +276,14 @@ export const settingsSchema = {
 
     toolsetCustomPlugin: {
       type: "confirm",
-      message: `Add the CassidyDC Plugin Dev Toolset to your custom plugin? `,
+      message: `Add the CassidyDC WP Dev Plugin Toolset to your custom plugin? `,
       initial: true,
       enabled: ({ plugin, devConfig }) => plugin.custom && devConfig.toolsetWPContent,
     },
 
     toolsetCustomTheme: {
       type: "confirm",
-      message: `Add the CassidyDC Theme Dev Toolset to your custom theme? `,
+      message: `Add the CassidyDC WP Dev Theme Toolset to your custom theme? `,
       initial: true,
       enabled: ({ theme, devConfig }) => theme.custom && devConfig.toolsetWPContent,
     },
