@@ -17,10 +17,11 @@ import { c, log, rootDirPath } from "../../../utils/helpers/index.js";
  * Creates the DDEV server filesystem directories.
  */
 export async function createFilesystemDirs() {
-  const customThemeSlug = installationConfig.wordpress.customThemeSlug;
-  const customPluginSlug = installationConfig.wordpress.customPluginSlug;
-  const wpContentPath = path.join(rootDirPath, "wp-content");
-  const logDirPath = installationConfig.wordpress.debugLogPath;
+  const customPluginSlug = installationConfig.plugin.customSlug;
+  const customThemeSlug = installationConfig.theme.customSlug;
+  const logDirPath = installationConfig.wordpress.debugLogPath.replace(/^\/+/, "");
+  const wpCoreDir = installationConfig.wordpress.coreDir.replace(/^\/+/, "");
+
   const includeDocsDir = installationConfig.devConfig.docs;
   const includeRayWithDDEV = installationConfig.ddev.spatieRay;
   const includeVscodeDir =
@@ -28,132 +29,63 @@ export async function createFilesystemDirs() {
 
   log(`\n${c.headingInfo(" Creating directories... ")}\n`);
 
-  // Create WordPress Core directory
-  const wpCoreDir = installationConfig.wordpress.coreDir;
-  const wpCoreDirPath = path.join(rootDirPath, wpCoreDir);
-
   // Create the WordPress Core directory, unless it already exists.
-  try {
-    await access(wpCoreDirPath);
-    log(c.dim(`The ${c.em(`${wpCoreDir}`)} directory already exists. Skipping creation.`));
-  } catch {
-    log(c.detail(`Creating the ${c.em(`${wpCoreDir}`)} directory...`));
-    await mkdir(wpCoreDirPath, { recursive: true });
-    log(c.green(`${c.bold("Success:")} ${wpCoreDir} created.`));
-  }
+  await createDirectory(`${wpCoreDir}`);
 
   // Create the /wp-content/plugins directory, unless it already exits.
-  const pluginsPath = path.join(wpContentPath, "plugins");
-  try {
-    await access(pluginsPath);
-    log(c.dim(`The ${c.em("/wp-content/plugins")} directory already exists. Skipping creation.`));
-  } catch {
-    log(c.detail(`Creating the ${c.em("/wp-content/plugins")} directory...`));
-    await mkdir(pluginsPath, { recursive: true });
-    log(c.green(`${c.bold("Success:")} /wp-content/plugins created.`));
-  }
+  await createDirectory(`wp-content/plugins`);
 
   // Create the /wp-content/themes directory, unless it already exists.
-  const themesPath = path.join(wpContentPath, "themes");
-  try {
-    await access(themesPath);
-    log(c.dim(`The ${c.em("/wp-content/themes")} directory already exists. Skipping creation.`));
-  } catch {
-    log(c.detail(`Creating the ${c.em("/wp-content/themes")} directory...`));
-    await mkdir(themesPath, { recursive: true });
-    log(c.green(`${c.bold("Success:")} /wp-content/themes created.`));
-  }
+  await createDirectory(`wp-content/themes`);
 
   // If customPluginSlug contains a value, create the /wp-content/plugins/<custom-plugin-slug> directory
-  if (customPluginSlug) {
-    const customPluginPath = path.join(pluginsPath, customPluginSlug);
-    try {
-      await access(customPluginPath);
-      log(c.dim(`The ${c.em(`/wp-content/plugins/${customPluginSlug}`)} directory already exists. Skipping creation.`));
-    } catch {
-      log(c.detail(`Creating the ${c.em(`/wp-content/plugins/${customPluginSlug}`)} directory.`));
-      await mkdir(customPluginPath, { recursive: true });
-      log(c.green(`${c.bold("Success:")} /wp-content/plugins/${customPluginSlug} created.`));
-    }
-  }
+  if (customPluginSlug) await createDirectory(`wp-content/plugins/${customPluginSlug}`);
 
   // If customThemeSlug contains a value, create the /wp-content/themes/<custom-theme-slug> directory.
-  if (customThemeSlug) {
-    const customThemePath = path.join(themesPath, customThemeSlug);
-    try {
-      await access(customThemePath);
-      log(c.dim(`The ${c.em(`/wp-content/themes/${customThemeSlug}`)} directory already exists. Skipping creation.`));
-    } catch {
-      log(c.detail(`Creating the ${c.em(`/wp-content/themes/${customThemeSlug}`)} directory.`));
-      await mkdir(customThemePath, { recursive: true });
-      log(c.green(`${c.bold("Success:")} /wp-content/themes/${customThemeSlug} created.`));
-    }
-  }
+  if (customThemeSlug) await createDirectory(`wp-content/themes/${customThemeSlug}`);
 
-  // If selected, create the <logs> directory.
-  if (logDirPath) {
-    const logDirnamePath = path.dirname(logDirPath);
-    const logDirectoryPath = path.join(rootDirPath, logDirnamePath);
-
-    try {
-      await access(logDirectoryPath);
-      log(c.dim(`The ${c.em(logDirnamePath)} directory already exists. Skipping creation.`));
-    } catch {
-      log(c.detail(`Creating the ${c.em(logDirnamePath)} directory...`));
-      await mkdir(logDirectoryPath, { recursive: true });
-      log(c.green(`${c.bold("Success:")} ${logDirnamePath} created.`));
-    }
-  }
+  // If selected, remove filename and create the <logs> directory.
+  if (logDirPath) await createDirectory(`${path.dirname(logDirPath)}`);
 
   // If selected, create /wp-content/docs directory.
-  if (includeDocsDir) {
-    const docsPath = path.join(wpContentPath, "docs");
-    const docsDirectories = ["dev", "reference"];
-
-    for (const docsDirectory of docsDirectories) {
-      const docsDirectoryPath = path.join(docsPath, docsDirectory);
-
-      try {
-        await access(docsDirectoryPath);
-        log(c.dim(`The ${c.em(`/wp-content/docs/${docsDirectory}`)} directory already exists. Skipping creation.`));
-      } catch {
-        log(c.detail(`Creating the ${c.em(`/wp-content/docs/${docsDirectory}`)} directory...`));
-        await mkdir(docsDirectoryPath, { recursive: true });
-        log(c.green(`${c.bold("Success:")} /wp-content/docs/${docsDirectory} created.`));
-      }
-    }
-  }
+  if (includeDocsDir) await createDirectory(`wp-content/docs`, ["dev", "reference"]);
 
   // If selected, create /wp-content/.vscode directory.
-  if (includeVscodeDir) {
-    const vscodeDirPath = path.join(rootDirPath, ".vscode");
-
-    try {
-      await access(vscodeDirPath);
-      log(c.dim(`The ${c.em("/wp-content/.vscode")} directory already exists. Skipping creation.`));
-    } catch {
-      log(c.detail(`Creating the ${c.em("/wp-content/.vscode")} directory...`));
-      await mkdir(vscodeDirPath, { recursive: true });
-      log(c.green(`${c.bold("Success:")} /wp-content/.vscode created.`));
-    }
-  }
+  if (includeVscodeDir) await createDirectory(`wp-content/.vscode`);
 
   // If selected, create /.ddev directory with ray file subdirectories
-  if (includeRayWithDDEV) {
-    const ddevPath = path.join(rootDirPath, ".ddev");
-    const ddevDirectories = ["php", "web-build"];
+  if (includeRayWithDDEV) await createDirectory(`.ddev`, ["php", "web-build"]);
+}
 
-    for (const ddevDirectory of ddevDirectories) {
-      const ddevDirectoryPath = path.join(ddevPath, ddevDirectory);
+/**
+ * Creates a directory.
+ *
+ * @param {*} directory
+ * @param {*} subdirectories
+ */
+async function createDirectory(directory, subdirectories = null) {
+  const directoryPath = path.join(rootDirPath, directory);
+
+  if (subdirectories && subdirectories.length >= 1) {
+    for (const subdirectory of subdirectories) {
+      const subdirectoryPath = path.join(directoryPath, subdirectory);
+      const subdirectoryRelativePath = `${directory}/${subdirectory}`;
 
       try {
-        await access(ddevDirectoryPath);
-        log(c.dim(`The ${c.em(`/.ddev/${ddevDirectory}`)} directory already exists. Skipping creation.`));
+        await access(subdirectoryPath);
+        log(c.dim(`The ${c.em(`${subdirectoryRelativePath}`)} directory already exists. Skipping creation.`));
       } catch {
-        log(c.detail(`Creating the ${c.em(`/.ddev/${ddevDirectory}`)} directory...`));
-        await mkdir(ddevDirectoryPath, { recursive: true });
-        log(c.green(`${c.bold("Success:")} /.ddev/${ddevDirectory} created.`));
+        log(c.detail(`Creating ${c.em(`${subdirectoryRelativePath}`)} directory...`));
+        await mkdir(subdirectoryPath, { recursive: true });
       }
+    }
+  } else {
+    try {
+      await access(directoryPath);
+      log(c.dim(`The ${c.em(directory)} directory already exists. Skipping creation.`));
+    } catch {
+      log(c.detail(`Creating ${c.em(directory)} directory...`));
+      await mkdir(directoryPath, { recursive: true });
     }
   }
 }
