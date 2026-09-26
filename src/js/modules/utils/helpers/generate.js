@@ -15,9 +15,11 @@ import process from "node:process";
 export function generateNamespaceFromName(name) {
   return name
     .trim()
-    .replace(/[^a-zA-Z0-9_]+/g, "") // Remove any non-letter, non-number, or non-underscore characters.
-    .replace(/^[^a-zA-Z_]+/, "") // Ensure the name starts with a letter or underscore.
+    .toLowerCase()
+    .replace(/[']/g, "") // Remove apostrophes so a letter following them stays in the same word.
+    .replace(/[^a-z0-9]+/g, " ") // Remove non-letter and non-number characters, then treat separators as spaces.
     .split(/\s+/)
+    .filter(Boolean)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join("");
 }
