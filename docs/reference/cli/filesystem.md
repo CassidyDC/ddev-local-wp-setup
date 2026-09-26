@@ -3,7 +3,10 @@
 - root
   - /.ddev
     - /php
+      - `php-ray.ini`
     - /web-build
+      - `Dockerfile`
+    - `config.yaml` (added by DDEV... with post-start hooks)
   - /wordpress (WP Core installation)
   - /wp-content
     - /.vscode
@@ -16,16 +19,30 @@
     - /logs
     - /plugins
       - /_custom-plugin_
+        - `package.json`
+        - `webpack.config.js`
     - /themes
       - /_custom-theme_
+        - `package.json`
+        - `webpack.config.js`
     - {toolset files}:
       - `.editorconfig`
       - `.gitignore`
       - `.markdownlint-cli2.jsonc`
       - `.prettierignore`
       - `.eslint.config.js`
+      - `composer.json`
       - `lefthook.yml`
+      - `phpcs.xml`
+      - `phpstan.neon`
       - `package.json`
       - `prettier.config.js`
       - `CHANGELOG.md`
       - `README.md`
+- `composer.json`
+- `ddev-local-wp-setup-config.json`
+- `index.php`
+- `ray.php`
+- `wp-cli.yml`
+- `wp-config-dev.php` (added by DDEV)
+- `wp-config.php` (added by DDEV)
