@@ -4,7 +4,7 @@
  */
 
 // Import file creators
-import { createConfigFile } from "./create/files/config.js";
+import { createConfigFile } from "./create/files/root-config.js";
 
 // Import helpers
 import {
@@ -28,7 +28,7 @@ export async function runInstaller() {
   const userSettingsConfig = await settingsPrompts(existingConfig);
   await createConfigFile(userSettingsConfig, existingConfig);
   await installationExecPrompt();
-  await initFilesystem(); // CONTINUE HERE
+  await initFilesystem();
   // await initToolsets();
   // await initDDEV();
   // await initWordPress();
