@@ -17,8 +17,9 @@ import { c, log, rootDirPath, runCommand } from "../../../../utils/helpers/index
  * @param {string} wpCoreDir The dirname for the WordPress Core directory.
  */
 export async function createComposerFile(wpCoreDir) {
-  const composerTarget = path.join(rootDirPath, "composer.json");
+  const filename = "composer.json";
 
+  const composerFile = path.join(rootDirPath, filename);
   const composerFileContent = `{
   "name": "cassidydc/ddev-local-wp-setup",
   "description": "CassidyDC default local development WordPress server setup with DDEV.",
@@ -50,22 +51,7 @@ export async function createComposerFile(wpCoreDir) {
   }
 }`;
 
-  const updateComposerWPInstallDir = async () => {
-    // log(c.detail("Updating WordPress Core directory path in composer.json..."));
-    wpCoreDir = wpCoreDir.replace(/^\//, "");
-    const installFilePath = path.join(rootDirPath, "composer.json");
-    const file = await fs.readFile(installFilePath, "utf8");
-    const composerFile = JSON.parse(file);
-
-    composerFile.extra = {
-      ...(composerFile.extra || {}),
-      "wordpress-install-dir": wpCoreDir,
-    };
-
-    await fs.writeFile(installFilePath, JSON.stringify(composerFile, null, 2) + "\n", "utf8");
-  };
-
-  if (existsSync(composerTarget)) {
+  if (existsSync(composerFile)) {
     log(
       c.dim(
         `The ${c.em(`${"composer.json"}`)} file already exists. Skipping creation and adding the \`roots/wordpress\` composer package to the existing composer.json file.\n`,
@@ -73,10 +59,10 @@ export async function createComposerFile(wpCoreDir) {
     );
   } else {
     log(c.detail(`Creating ${c.em("composer.json")} file...`));
-    await fs.writeFile(composerTarget, composerFileContent, "utf8");
+    await fs.writeFile(composerFile, composerFileContent, "utf8");
   }
 
-  if (wpCoreDir !== "/wordpress") await updateComposerWPInstallDir();
+  if (wpCoreDir !== "/wordpress") await updateComposerWPInstallDir(wpCoreDir);
 
   await runCommand("composer", [
     "config",
@@ -90,4 +76,19 @@ export async function createComposerFile(wpCoreDir) {
     "--dev",
     "roots/wordpress",
   ]);
+}
+
+async function updateComposerWPInstallDir(wpCoreDir) {
+  // log(c.detail("Updating WordPress Core directory path in composer.json..."));
+  wpCoreDir = wpCoreDir.replace(/^\//, "");
+  const installFilePath = path.join(rootDirPath, "composer.json");
+  const file = await fs.readFile(installFilePath, "utf8");
+  const composerFile = JSON.parse(file);
+
+  composerFile.extra = {
+    ...(composerFile.extra || {}),
+    "wordpress-install-dir": wpCoreDir,
+  };
+
+  await fs.writeFile(installFilePath, JSON.stringify(composerFile, null, 2) + "\n", "utf8");
 }
