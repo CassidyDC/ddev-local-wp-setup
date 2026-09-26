@@ -198,6 +198,14 @@ export const settingsSchema = {
       enabled: ({ plugin }) => plugin.custom,
     },
 
+    // TODO - Add custom plugin starter files package.
+    // customStarterFiles: {
+    //   type: "confirm",
+    //   message: `Use the CassidyDC Starter Block Plugin files for your new plugin?`,
+    //   initial: true,
+    //   enabled: ({ plugin }) => theme.plugin,
+    // },
+
     ai1wm: {
       type: "confirm",
       message: `Install the All-in-One WP Migration plugin?`,
@@ -238,12 +246,13 @@ export const settingsSchema = {
       enabled: ({ theme }) => theme.custom,
     },
 
-    customStarterFiles: {
-      type: "confirm",
-      message: `Use the CassidyDC Starter Block Theme files for your new theme?`,
-      initial: true,
-      enabled: ({ theme }) => theme.custom,
-    },
+    // TODO - Add custom theme starter files package.
+    // customStarterFiles: {
+    //   type: "confirm",
+    //   message: `Use the CassidyDC Starter Block Theme files for your new theme?`,
+    //   initial: true,
+    //   enabled: ({ theme }) => theme.custom,
+    // },
 
     default: {
       type: "confirm",
