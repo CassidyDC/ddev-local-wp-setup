@@ -8,12 +8,13 @@ import {
   generateNamespaceFromName,
   generateProjectNameFromDir,
   generateSlugFromName,
+  generateTitleFromSlug,
 } from "../utils/helpers/generate.js";
 
 import { c } from "../utils/helpers/styles.js";
 
 import {
-  validateDirSlug,
+  validateSlug,
   validateLogPath,
   validateNamespace,
   validateString,
@@ -23,13 +24,17 @@ import {
   validateWPCoreDir,
 } from "../utils/helpers/validate.js";
 
+const generatedName = generateProjectNameFromDir();
+const generatedSlug = generateSlugFromName(generatedName);
+
 export const settingsSchema = {
   ddev: {
     projectName: {
       type: "input",
       message: "DDEV project name:",
-      initial: generateProjectNameFromDir,
-      hint: `(This is the name of your DDEV project, which will be used to generate your DDEV domain.)`,
+      initial: generatedSlug,
+      hint: "(This will be used for your local DDEV domain. Use only lowercase letter, digits, and dashes, such as `cassidydc-wordpress-site`, and do NOT include a tld.)",
+      validate: validateSlug,
     },
 
     localhost: {
@@ -70,7 +75,7 @@ export const settingsSchema = {
     siteTitle: {
       type: "input",
       message: "Site Title:",
-      initial: ({ ddev }) => ddev.projectName,
+      initial: ({ ddev }) => generateTitleFromSlug(ddev.projectName),
     },
 
     siteTagname: {
@@ -185,7 +190,7 @@ export const settingsSchema = {
       message: `Custom plugin directory slug:`,
       initial: ({ plugin } = {}) => generateSlugFromName(plugin?.customName),
       hint: "(Use only lowercase letter, digits, and dashes, such as `cassidydc-core-plugin`)",
-      validate: validateDirSlug,
+      validate: validateSlug,
       enabled: ({ plugin }) => plugin.custom,
     },
 
@@ -233,7 +238,7 @@ export const settingsSchema = {
       message: `Custom theme directory slug:`,
       initial: ({ theme }) => generateSlugFromName(theme.customName),
       hint: "(Use only lowercase letter, digits, and dashes, such as `cassidydc-block-theme`)",
-      validate: validateDirSlug,
+      validate: validateSlug,
       enabled: ({ theme }) => theme.custom,
     },
 
