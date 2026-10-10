@@ -29,8 +29,20 @@ export async function initWordPress() {
     `--admin_password=${adminPassword}`,
     `--admin_email=${adminEmail}`,
   ]);
-  await captureCommand("ddev", ["wp", "option", "update", "blogdescription", siteTagline ?? ""]);
-  log(c.success(siteTagline ? `Added the site tagline: ${siteTagline}` : "Cleared the site tagline."));
+  const tagline = siteTagline ?? "";
+  const { stdout: currentTagline } = await captureCommand("ddev", ["wp", "option", "get", "blogdescription"]);
+  if (currentTagline.replace(/\r?\n$/, "") !== tagline) {
+    await captureCommand("ddev", ["wp", "option", "update", "blogdescription", tagline]);
+    log(c.success(tagline ? `Added the site tagline: ${tagline}` : "Cleared the site tagline."));
+  } else {
+    log(
+      c.dim(
+        tagline
+          ? "The site tagline is already set. Skipping update."
+          : "The site tagline is already empty. Skipping update.",
+      ),
+    );
+  }
 
   if (cleanState) {
     log(c.detail("Cleaning up the default WordPress content..."));
