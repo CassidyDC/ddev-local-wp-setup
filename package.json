@@ -16,6 +16,7 @@
   ],
   "main": "src/js/init.js",
   "type": "module",
+  "homepage": "https://github.com/CassidyDC/ddev-local-wp-setup/blob/main/README.md",
   "repository": {
     "type": "git",
     "url": "https://github.com/CassidyDC/ddev-local-wp-setup"
@@ -34,17 +35,17 @@
   "dependencies": {
     "ansi-colors": "^4.1.3",
     "enquirer": "^2.4.1",
-    "string-width": "^8.2.2",
+    "string-width": "^8.3.0",
     "yocto-spinner": "^1.2.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "eslint": "^10.11.0",
+    "eslint": "^10.12.0",
     "eslint-plugin-import-x": "^4.17.1",
-    "globals": "^17.12.0",
-    "lefthook": "^2.1.14",
-    "markdownlint-cli2": "^0.23.2",
-    "prettier": "^3.9.8",
+    "globals": "^17.13.0",
+    "lefthook": "^2.2.1",
+    "markdownlint-cli2": "^0.23.3",
+    "prettier": "^3.9.9",
     "prettier-plugin-multiline-arrays": "^4.1.11"
   },
   "scripts": {
