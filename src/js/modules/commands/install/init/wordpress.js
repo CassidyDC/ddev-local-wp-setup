@@ -108,15 +108,13 @@ export async function initWordPress() {
       throw new Error(`Could not determine the latest official default theme (received "${defaultThemeSlug}").`);
     }
 
-    const { stdout } = await captureCommand("ddev", ["wp", "theme", "list", "--format=json"]);
-    const themes = JSON.parse(stdout);
-    const theme = themes.find((installedTheme) => installedTheme.name === defaultThemeSlug);
-    if (theme?.status === "active") {
-      log(c.dim(`The ${defaultThemeSlug} theme is already active. Skipping installation.`));
-    } else if (theme) {
-      await runCommand("ddev", ["wp", "theme", "activate", defaultThemeSlug]);
-    } else {
+    const themeIsInstalled = await commandSucceeds("ddev", ["wp", "theme", "is-installed", defaultThemeSlug]);
+    if (!themeIsInstalled) {
       await runCommand("ddev", ["wp", "theme", "install", defaultThemeSlug, "--activate"]);
+    } else if (await commandSucceeds("ddev", ["wp", "theme", "is-active", defaultThemeSlug])) {
+      log(c.dim(`The ${defaultThemeSlug} theme is already active. Skipping installation.`));
+    } else {
+      await runCommand("ddev", ["wp", "theme", "activate", defaultThemeSlug]);
     }
   }
 
