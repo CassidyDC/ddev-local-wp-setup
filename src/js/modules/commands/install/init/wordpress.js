@@ -12,7 +12,7 @@ import { c, generateSlugFromName, log, runCommand } from "../../../utils/helpers
  * Runs the shell commands to install the local DDEV WordPress development server setup.
  */
 export async function initWordPress() {
-  const { adminUsername, adminEmail, adminPassword, siteTitle, cleanState, postnamePermalinks, homepage } =
+  const { adminUsername, adminEmail, adminPassword, siteTitle, siteTagline, cleanState, postnamePermalinks, homepage } =
     installationConfig.wordpress;
   const { ai1wm } = installationConfig.plugin;
   const { defaultTheme } = installationConfig.theme;
@@ -29,6 +29,7 @@ export async function initWordPress() {
     `--admin_password=${adminPassword}`,
     `--admin_email=${adminEmail}`,
   ]);
+  await runCommand("ddev", ["wp", "option", "update", "blogdescription", siteTagline ?? ""]);
 
   if (cleanState) {
     log(c.detail("Cleaning up the default WordPress content..."));
