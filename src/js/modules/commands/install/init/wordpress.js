@@ -31,21 +31,6 @@ export async function initWordPress() {
   ]);
   if (cleanState) {
     log(`\n${c.headingInfo(" Cleaning up the default WordPress setup ")}\n`);
-    const tagline = siteTagline ?? "";
-    const { stdout: currentTagline } = await captureCommand("ddev", ["wp", "option", "get", "blogdescription"]);
-    if (currentTagline.replace(/\r?\n$/, "") !== tagline) {
-      await captureCommand("ddev", ["wp", "option", "update", "blogdescription", tagline]);
-      log(c.success(tagline ? `Added the site tagline: ${tagline}` : "Cleared the site tagline."));
-    } else {
-      log(
-        c.dim(
-          tagline
-            ? "The site tagline is already set. Skipping update."
-            : "The site tagline is already empty. Skipping update.",
-        ),
-      );
-    }
-
     await runCommand("ddev", [
       "wp",
       "eval",
@@ -77,6 +62,21 @@ export async function initWordPress() {
         log(c.dim(`The default ${label} was not present. Skipping deletion.`));
       }
     }
+  }
+
+  const tagline = siteTagline ?? "";
+  const { stdout: currentTagline } = await captureCommand("ddev", ["wp", "option", "get", "blogdescription"]);
+  if (currentTagline.replace(/\r?\n$/, "") !== tagline) {
+    await captureCommand("ddev", ["wp", "option", "update", "blogdescription", tagline]);
+    log(c.success(tagline ? `Added the site tagline: ${tagline}` : "Cleared the site tagline."));
+  } else {
+    log(
+      c.dim(
+        tagline
+          ? "The site tagline is already set. Skipping update."
+          : "The site tagline is already empty. Skipping update.",
+      ),
+    );
   }
 
   if (postnamePermalinks) {
