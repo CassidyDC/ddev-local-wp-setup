@@ -96,14 +96,26 @@ export async function initWordPress() {
     }
   }
 
-  if (!defaultTheme) {
-    const { stdout } = await captureCommand("ddev", ["wp", "theme", "list", "--status=inactive", "--field=name"]);
-    const bundledDefaultTheme = stdout
-      .split(/\r?\n/)
-      .map((name) => name.trim())
-      .find((name) => /^twentytwenty(?:[0-9]{2})$/.test(name));
-    if (bundledDefaultTheme) {
-      await runCommand("ddev", ["wp", "theme", "delete", bundledDefaultTheme]);
+  if (defaultTheme) {
+    const { stdout: defaultThemeSlugOutput } = await captureCommand("ddev", [
+      "wp",
+      "eval",
+      'echo array_key_last((new ReflectionClass("WP_Theme"))->getStaticPropertyValue("default_themes"));',
+    ]);
+    const defaultThemeSlug = defaultThemeSlugOutput.trim();
+    if (!/^[a-z0-9-]+$/.test(defaultThemeSlug)) {
+      throw new Error(`Could not determine the latest official default theme (received "${defaultThemeSlug}").`);
+    }
+
+    const { stdout } = await captureCommand("ddev", ["wp", "theme", "list", "--format=json"]);
+    const themes = JSON.parse(stdout);
+    const theme = themes.find((installedTheme) => installedTheme.name === defaultThemeSlug);
+    if (theme?.status === "active") {
+      log(c.dim(`The ${defaultThemeSlug} theme is already active. Skipping installation.`));
+    } else if (theme) {
+      await runCommand("ddev", ["wp", "theme", "activate", defaultThemeSlug]);
+    } else {
+      await runCommand("ddev", ["wp", "theme", "install", defaultThemeSlug, "--activate"]);
     }
   }
 
@@ -112,7 +124,7 @@ export async function initWordPress() {
     const plugins = JSON.parse(stdout);
     const ai1wmPlugin = plugins.find((plugin) => plugin.name === "all-in-one-wp-migration");
     if (ai1wmPlugin?.status === "active") {
-      log(c.dim("Then All-in-One WP Migration plugin is already active. Skipping installation."));
+      log(c.dim("All-in-One WP Migration is already active. Skipping installation."));
     } else if (ai1wmPlugin) {
       await runCommand("ddev", ["wp", "plugin", "activate", "all-in-one-wp-migration"]);
     } else {
