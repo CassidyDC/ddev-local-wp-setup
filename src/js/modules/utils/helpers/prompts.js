@@ -91,7 +91,7 @@ export async function installationExecPrompt() {
     process.exit(0);
   }
 
-  displayHeading(c.bold.yellow(`\n${pkgJSON.displayName} Installing...`));
+  displayHeading(c.bold.yellow(`${pkgJSON.displayName} Installing...`));
 }
 
 /**
