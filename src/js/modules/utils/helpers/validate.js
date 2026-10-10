@@ -4,19 +4,19 @@
  */
 
 /**
- * Validates the directory slug.
+ * Validates the slug for directory and domain uses.
  *
  * @param {string} value The string being validated.
  */
-export function validateDirSlug(value) {
+export function validateSlug(value) {
   const slug = value.trim();
 
   if (!slug) {
-    return "Directory slug is required.";
+    return "Slug is required.";
   }
 
   if (!/^[a-z0-9-]+$/.test(slug)) {
-    return "Directory slug can only contain lowercase letters, digits, and dashes.";
+    return "Slug can only contain lowercase letters, digits, and dashes.";
   }
 
   return true;
