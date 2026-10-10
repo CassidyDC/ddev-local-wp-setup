@@ -12,26 +12,12 @@ import { installationConfig } from "../../../configs/index.js";
 export async function initWordPress() {
   console.log("Running initWordPress()");
 
-  const {
-    customPluginSlug,
-    customThemeSlug,
-    includeCustomThemeStarterFiles,
-    includeHomepage,
-    includePluginAi1m,
-    includeThemeWpDefault,
-    includeToolsetPluginDev,
-    includeToolsetThemeDev,
-  } = installationConfig.project;
-  // const { email, password, username } = installationConfig.wpAdmin;
-  const { wpCleanState, wpCorePath, wpPostnamePermalinks } = installationConfig.wpCore;
+  const { adminUsername, adminEmail, adminPassword, siteTitle, siteTagline, cleanState, postnamePermalinks, homepage } =
+    installationConfig.wordpress;
+  const { ai1wm } = installationConfig.plugins;
+  const { defaultTheme } = installationConfig.themes;
 
-  if (wpCorePath) {
-    // Install WP Core in custom directory.
-  } else {
-    // install WP Core in "wordpress" directory.
-  }
-
-  if (wpCleanState) {
+  if (cleanState) {
     // Hide default WordPress dashboard widgets.
     // Hide the welcome panel.
     // Remove default Hello World post.
@@ -39,39 +25,19 @@ export async function initWordPress() {
     // Remove default Privacy Policy draft page.
   }
 
-  if (wpPostnamePermalinks) {
+  if (postnamePermalinks) {
     // Update the WP permalinks to use the post name.
   }
 
-  if (includeHomepage) {
+  if (homepage) {
     // Create a new page titled 'Homepage' and set it to be the site's front page.
   }
 
-  if (customPluginSlug) {
-    // Create custom plugin directory.
-
-    if (includeToolsetPluginDev) {
-      // Add dev wp plugin toolset inside custom plugin directory.
-    }
+  if (!defaultTheme) {
+    // Remove the default WordPress theme.
   }
 
-  if (customThemeSlug) {
-    // Create custom theme directory.
-
-    if (includeCustomThemeStarterFiles) {
-      // Add starter theme files inside custom theme directory.
-    }
-
-    if (includeToolsetThemeDev) {
-      // Add dev wp theme toolset inside custom theme directory.
-    }
-  }
-
-  if (includeThemeWpDefault) {
-    // Install default theme.
-  }
-
-  if (includePluginAi1m) {
+  if (ai1wm) {
     // Install All-in-One Migration plugin.
   }
 }
