@@ -19,6 +19,7 @@ import { installationConfig, settingsSchema } from "../../configs/index.js";
 
 // Import helpers
 import { c, pkgJSON, log, validateExecInstaller } from "./index.js";
+import { isDockerRunning } from "./docker.js";
 
 const { prompt } = pkg;
 
@@ -80,15 +81,26 @@ export async function configExistsPrompt() {
 export async function installationExecPrompt() {
   log(`\n${c.success("All settings have been collected.")}\n`);
 
-  const { answer } = await prompt({
-    type: "input",
-    name: "answer",
-    message: c.info(`Type ${c.bold("run")} to start the installer, or type ${c.bold("exit")} to quit:`),
-    validate: validateExecInstaller,
-  });
+  let answer;
+  while (true) {
+    ({ answer } = await prompt({
+      type: "input",
+      name: "answer",
+      message: c.info(`Type ${c.bold("run")} to start the installer, or type ${c.bold("exit")} to quit:`),
+      validate: validateExecInstaller,
+    }));
 
-  if (answer.trim().toLowerCase() === "exit") {
-    process.exit(0);
+    if (answer.trim().toLowerCase() === "exit") {
+      process.exit(0);
+    }
+
+    if (await isDockerRunning()) break;
+
+    log(
+      c.warn(
+        'Docker is not running or is unavailable. Start your Docker provider (for example, OrbStack or Docker Desktop), then type "run" to continue.\n',
+      ),
+    );
   }
 
   displayHeading(c.bold.yellow(`${pkgJSON.displayName} Installing...`));
