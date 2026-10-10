@@ -4,7 +4,10 @@
  */
 
 // Import node modules
+import { existsSync } from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
+import { spawn } from "node:child_process";
+import path from "node:path";
 
 // Import configs
 import { installationConfig } from "../../../configs/index.js";
@@ -20,6 +23,12 @@ export async function initDDEV() {
 
   const projectName = installationConfig.ddev.projectName;
   const projectSlug = generateSlugFromName(projectName);
+  const ddevConfigPath = path.join(rootDirPath, ".ddev", "config.yaml");
+
+  // Remove any old containers if the project config was deleted and is being recreated.
+  if (!existsSync(ddevConfigPath) && (await commandSucceeds("ddev", ["stop", projectSlug]))) {
+    log(c.dim("Stopped the existing DDEV project before recreating its configuration."));
+  }
 
   // Set up DDEV config.
   await runCommand("ddev", [
@@ -194,4 +203,12 @@ async function updateDDEVDNS() {
   }
 
   await writeFile(ddevConfigFilePath, lines.join(newline).replace(/(?:\r?\n)*$/, newline), "utf8");
+}
+
+function commandSucceeds(command, args) {
+  return new Promise((resolve) => {
+    const child = spawn(command, args, { stdio: "ignore", shell: false });
+    child.on("error", () => resolve(false));
+    child.on("close", (code) => resolve(code === 0));
+  });
 }
