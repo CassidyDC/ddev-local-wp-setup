@@ -4,7 +4,7 @@
  */
 
 // Import file creators
-import { createConfigFile } from "./create/files/root-config.js";
+import { createConfigFile } from "./create/root-config.js";
 
 // Import helpers
 import {
@@ -30,6 +30,6 @@ export async function runInstaller() {
   await installationExecPrompt();
   await initFilesystem();
   // await initToolsets();
-  // await initDDEV();
-  // await initWordPress();
+  await initDDEV();
+  await initWordPress();
 }

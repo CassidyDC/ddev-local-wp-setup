@@ -31,6 +31,7 @@ export async function initDDEV() {
   await createDDEVHooks();
   await updateDDEVDNS();
   await addDDEVUploadDirs();
+  await runCommand("ddev", ["start"]);
 }
 
 /**
@@ -98,7 +99,7 @@ async function createDDEVHooks() {
     SCRIPT_DEBUG: installationConfig.wordpress?.debugScript,
   };
 
-  log(c.detail(`\nAdding ${c.em(ddevConfigFilename)} post-start hooks...`));
+  log(c.detail(`\nAdding ${c.em(ddevConfigFilename)} post-start hooks...\n`));
 
   const content = await readFile(ddevConfigFilePath, "utf8");
   const newline = content.includes("\r\n") ? "\r\n" : "\n";

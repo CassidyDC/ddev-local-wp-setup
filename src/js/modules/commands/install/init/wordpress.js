@@ -12,15 +12,13 @@ import { c, generateSlugFromName, log, runCommand } from "../../../utils/helpers
  * Runs the shell commands to install the local DDEV WordPress development server setup.
  */
 export async function initWordPress() {
-  console.log("Running initWordPress()");
-
   const { adminUsername, adminEmail, adminPassword, siteTitle, cleanState, postnamePermalinks, homepage } =
     installationConfig.wordpress;
   const { ai1wm } = installationConfig.plugin;
   const { defaultTheme } = installationConfig.theme;
   const projectSlug = generateSlugFromName(installationConfig.ddev.projectName);
 
-  log(c.headingInfo(" Installing WordPress "));
+  log(`\n${c.headingInfo(" Installing WordPress ")}\n`);
   await runCommand("ddev", [
     "wp",
     "core",
@@ -33,24 +31,36 @@ export async function initWordPress() {
   ]);
 
   if (cleanState) {
-    log(c.detail("Cleaning the default WordPress content..."));
+    log(c.detail("Cleaning up the default WordPress content..."));
     await runCommand("ddev", [
       "wp",
       "eval",
       'update_user_meta(1, "metaboxhidden_dashboard", array("dashboard_right_now", "dashboard_activity", "dashboard_site_health", "dashboard_quick_press", "dashboard_primary"));',
     ]);
-    await runCommand("ddev", ["wp", "user", "meta", "update", "1", "show_welcome_panel", "0"]);
+    const { stdout: welcomePanel } = await captureCommand("ddev", [
+      "wp",
+      "user",
+      "meta",
+      "get",
+      "1",
+      "show_welcome_panel",
+    ]);
+    if (welcomePanel.trim() !== "0") {
+      await runCommand("ddev", ["wp", "user", "meta", "update", "1", "show_welcome_panel", "0"]);
+    } else {
+      log(c.dim("The welcome panel is already hidden. Skipping update."));
+    }
 
     for (const [id, label] of [
       [1, "Hello, World post"],
       [2, "Sample Page"],
       [3, "Privacy Policy draft"],
     ]) {
-      try {
+      if (await commandSucceeds("ddev", ["wp", "post", "exists", String(id)])) {
         await runCommand("ddev", ["wp", "post", "delete", String(id), "--force"]);
         log(c.detail(`Deleted the default ${label}.`));
-      } catch {
-        log(c.detail(`Default ${label} was not present; skipping deletion.`));
+      } else {
+        log(c.dim(`The default ${label} was not present. Skipping deletion.`));
       }
     }
   }
@@ -97,13 +107,28 @@ export async function initWordPress() {
   }
 
   if (ai1wm) {
-    try {
-      await runCommand("ddev", ["wp", "plugin", "is-installed", "all-in-one-wp-migration"]);
-      log(c.detail("All-in-One WP Migration is already installed; skipping installation."));
-    } catch {
+    const { stdout } = await captureCommand("ddev", ["wp", "plugin", "list", "--format=json"]);
+    const plugins = JSON.parse(stdout);
+    const ai1wmPlugin = plugins.find((plugin) => plugin.name === "all-in-one-wp-migration");
+    if (ai1wmPlugin?.status === "active") {
+      log(c.dim("Then All-in-One WP Migration plugin is already active. Skipping installation."));
+    } else if (ai1wmPlugin) {
+      await runCommand("ddev", ["wp", "plugin", "activate", "all-in-one-wp-migration"]);
+    } else {
       await runCommand("ddev", ["wp", "plugin", "install", "all-in-one-wp-migration", "--activate"]);
     }
   }
+
+  log(`\n${c.info("Opening browser to the WP Admin dashboard...")}\n`);
+  await runCommand("ddev", ["launch", "wp-admin/"]);
+}
+
+function commandSucceeds(command, args) {
+  return new Promise((resolve) => {
+    const child = spawn(command, args, { stdio: "ignore", shell: false });
+    child.on("error", () => resolve(false));
+    child.on("close", (code) => resolve(code === 0));
+  });
 }
 
 function captureCommand(command, args) {
