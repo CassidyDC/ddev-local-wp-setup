@@ -4,4 +4,4 @@
  */
 
 export * from "./arguments.js";
-export * from "./content.js";
+export * from "./wordpress.js";
