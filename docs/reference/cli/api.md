@@ -67,7 +67,7 @@ Press ENTER to continue...
 
 4. Set your WP site title: (leave blank to use the DDEV project name)
 
-5. Set your WP site tagname: (leave blank if a tagname is not desired)
+5. Set your WP site tagline: (leave blank if a tagline is not desired)
 
 ### Project Settings
 

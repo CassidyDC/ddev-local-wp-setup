@@ -78,7 +78,7 @@ export const settingsSchema = {
       initial: ({ ddev }) => generateTitleFromSlug(ddev.projectName),
     },
 
-    siteTagname: {
+    siteTagline: {
       type: "input",
       message: "Site Tagline:",
       hint: `(Leave blank if a tagline is not desired.)`,

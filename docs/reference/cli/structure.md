@@ -23,7 +23,7 @@
 2. set_wp_admin_password()
 3. set_wp_admin_email()
 4. set_wp_site_title()
-5. set_wp_site_tagname()
+5. set_wp_site_tagline()
 
 ## Project Settings
 
