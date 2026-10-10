@@ -5,6 +5,10 @@
 
 // Import node modules
 import { spawn } from "node:child_process";
+import process from "node:process";
+
+// Import styles
+import { c } from "./styles.js";
 
 // Import configs
 import { commandsConfig, flagsConfig } from "../../configs/index.js";
@@ -58,9 +62,12 @@ export function checkForUserFlag(flagName) {
 export function runCommand(command, args = []) {
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, {
-      stdio: "inherit",
+      stdio: ["inherit", "pipe", "pipe"],
       shell: false,
     });
+
+    child.stdout.on("data", (chunk) => process.stdout.write(colorizeSuccess(chunk.toString())));
+    child.stderr.on("data", (chunk) => process.stderr.write(colorizeSuccess(chunk.toString())));
 
     child.on("error", reject);
 
@@ -72,4 +79,8 @@ export function runCommand(command, args = []) {
       }
     });
   });
+}
+
+function colorizeSuccess(output) {
+  return output.replace(/\bSuccess(?:fully)?\b/g, (success) => c.success(success));
 }
