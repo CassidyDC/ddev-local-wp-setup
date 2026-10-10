@@ -52,3 +52,16 @@ export function generateSlugFromName(name) {
     .toLowerCase() // Make all letters lowercase.
     .replace(/[^a-z0-9-]+/g, ""); // Remove any non-letter, non-number, or non-dash characters.
 }
+
+/**
+ * Generates a title from a string.
+ *
+ * @param {string} slug The string being transformed into a title.
+ * @returns {string} The title string.
+ */
+export function generateTitleFromSlug(slug) {
+  return slug
+    .trim()
+    .replace(/[-_]+/g, " ") // Replace dashes with spaces.
+    .replace(/\b\w/g, (match) => match.toUpperCase()); // Capitalize the first letter of each word.
+}
