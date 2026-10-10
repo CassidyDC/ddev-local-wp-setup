@@ -14,7 +14,7 @@ import { c, log, rootDirPath } from "../../../utils/helpers/index.js";
 /**
  * Creates <root>/ddev-local-wp-setup-config.json without the WP admin password.
  */
-export async function createConfigFile(userSettingsConfig, existingConfig) {
+export async function createDLWSConfigFile(userSettingsConfig, existingConfig) {
   const ddevLocalWPSetupConfigFile = path.join(`${rootDirPath}`, "ddev-local-wp-setup-config.json");
   const configToSave = {
     ...userSettingsConfig,

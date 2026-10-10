@@ -4,7 +4,7 @@
  */
 
 // Import file creators
-import { createConfigFile } from "./create/root-config.js";
+import { createDLWSConfigFile } from "./create/dlws-config.js";
 
 // Import helpers
 import {
@@ -26,7 +26,7 @@ export async function runInstaller() {
     await installationStartupPrompt();
   }
   const userSettingsConfig = await settingsPrompts(existingConfig);
-  await createConfigFile(userSettingsConfig, existingConfig);
+  await createDLWSConfigFile(userSettingsConfig, existingConfig);
   await installationExecPrompt();
   await initFilesystem();
   // await initToolsets();
