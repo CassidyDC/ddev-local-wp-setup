@@ -27,7 +27,7 @@ export async function createFilesystemDirs() {
   const includeVscodeDir =
     installationConfig.devConfig.vscodeWorkspaceSettings || installationConfig.devConfig.vscodeRecommendations;
 
-  log(`\n${c.headingInfo(" Creating directories... ")}\n`);
+  log(`\n${c.headingInfo(" Creating directories ")}\n`);
 
   // Create the WordPress Core directory, unless it already exists.
   await createDirectory(`${wpCoreDir}`);

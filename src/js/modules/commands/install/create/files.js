@@ -30,10 +30,10 @@ import {
 export async function createFilesystemFiles() {
   const wpCoreDir = installationConfig?.wordpress?.coreDir.replace(/^\/+/, "");
 
-  log(`\n${c.headingInfo(" Creating files... ")}\n`);
+  log(`\n${c.headingInfo(" Creating files ")}\n`);
 
   await createFile("index.php", getRootIndexFileContent); // Tells DDEV where the WordPress Core is installed.
-  await createFile("wp-cli.php", getRootWPCliFileContent); // Tells DDEV where to run the WP CLI command.
+  await createFile("wp-cli.yml", getRootWPCliFileContent); // Tells DDEV where to run the WP CLI command.
 
   if (installationConfig?.ddev?.spatieRay) {
     await createFile(".ddev/web-build/Dockerfile", getDdevDockerfileFileContent);
