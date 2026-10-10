@@ -135,7 +135,7 @@ export async function initWordPress() {
     const plugins = JSON.parse(stdout);
     const ai1wmPlugin = plugins.find((plugin) => plugin.name === "all-in-one-wp-migration");
     if (ai1wmPlugin?.status === "active") {
-      log(c.dim("All-in-One WP Migration is already active. Skipping installation."));
+      log(c.dim("The All-in-One WP Migration plugin is already active. Skipping installation."));
     } else if (ai1wmPlugin) {
       await runCommand("ddev", ["wp", "plugin", "activate", "all-in-one-wp-migration"]);
     } else {
