@@ -24,8 +24,8 @@ export async function createFilesystemDirs() {
 
   const includeDocsDir = installationConfig.devConfig.docs;
   const includeRayWithDDEV = installationConfig.ddev.spatieRay;
-  const includeVscodeDir =
-    installationConfig.devConfig.vscodeWorkspaceSettings || installationConfig.devConfig.vscodeRecommendations;
+  // const includeVscodeDir =
+  //   installationConfig.devConfig.vscodeWorkspaceSettings || installationConfig.devConfig.vscodeRecommendations;
 
   log(`\n${c.headingInfo(" Creating directories ")}\n`);
 
@@ -51,7 +51,7 @@ export async function createFilesystemDirs() {
   if (includeDocsDir) await createDirectory(`wp-content/docs`, ["dev", "reference"]);
 
   // If selected, create /wp-content/.vscode directory.
-  if (includeVscodeDir) await createDirectory(`wp-content/.vscode`);
+  // if (includeVscodeDir) await createDirectory(`wp-content/.vscode`);
 
   // If selected, create /.ddev directory with ray file subdirectories
   if (includeRayWithDDEV) await createDirectory(`.ddev`, ["php", "web-build"]);
