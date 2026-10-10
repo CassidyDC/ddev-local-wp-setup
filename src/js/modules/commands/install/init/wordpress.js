@@ -45,7 +45,7 @@ export async function initWordPress() {
   }
 
   if (cleanState) {
-    log(c.detail("Cleaning up the default WordPress content..."));
+    log(`\n${c.headingInfo(" Cleaning up the default WordPress setup ")}\n`);
     await runCommand("ddev", [
       "wp",
       "eval",
