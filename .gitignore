@@ -2,8 +2,13 @@
 /node_modules
 /vendor
 
+# Ignore development files
+*.log
+docs/dev/TODO.md
+
 # Ignore temp files
 docs/dev/reference/v2.4.0/files/root/ddev-db-backup-script.sh
 test
 ddev-local-wp-setup-config*
 *.ddev.site
+
