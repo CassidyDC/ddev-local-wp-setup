@@ -37,7 +37,7 @@ export const userFlags = getUserArguments()[1];
 export const userIncludedNonExistingCommands = getNonExistingArguments(allowedCommands, userCommands);
 export const userIncludedNonExistingFlags = getNonExistingArguments(allowedFlags, userFlags);
 
-// User prompt has constants
+// User prompt 'has' constants
 export const hasCommandInstall = checkForUserCommand("install");
 export const hasFlagDebug = checkForUserFlag("debug");
 export const hasFlagHelp = checkForUserFlag("help");
