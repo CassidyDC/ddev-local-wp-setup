@@ -39,17 +39,18 @@ export async function initDDEV() {
  */
 async function addDDEVUploadDirs() {
   const directories = [
-    "wp-content/ai1wm-backups",
-    "wp-content/node_modules",
-    "wp-content/updrafts",
     "wp-content/uploads",
-    "wp-content/vendor",
   ];
-  const customThemeSlug = installationConfig.theme.customSlug;
-  const customPluginSlug = installationConfig.plugin.customSlug;
+  // const customThemeSlug = installationConfig.theme.customSlug;
+  // const customPluginSlug = installationConfig.plugin.customSlug;
+  const hasAi1wm = !!installationConfig.plugin.ai1wm;
+  // "wp-content/node_modules",
+  // "wp-content/updrafts",
+  // "wp-content/vendor",
 
-  if (customThemeSlug) directories.push(`wp-content/themes/${customThemeSlug}/node_modules`);
-  if (customPluginSlug) directories.push(`wp-content/plugins/${customPluginSlug}/node_modules`);
+  // if (customThemeSlug) directories.push(`wp-content/themes/${customThemeSlug}/node_modules`);
+  // if (customPluginSlug) directories.push(`wp-content/plugins/${customPluginSlug}/node_modules`);
+  if (hasAi1wm) directories.push("wp-content/ai1wm-backups");
 
   const ddevConfigFilePath = `${rootDirPath}/.ddev/config.yaml`;
   const content = await readFile(ddevConfigFilePath, "utf8");
