@@ -259,7 +259,7 @@ export const settingsSchema = {
     //   enabled: ({ theme }) => theme.custom,
     // },
 
-    default: {
+    defaultTheme: {
       type: "confirm",
       message: `Include the default WordPress theme? `,
       initial: true,
