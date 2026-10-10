@@ -29,7 +29,8 @@ export async function initWordPress() {
     `--admin_password=${adminPassword}`,
     `--admin_email=${adminEmail}`,
   ]);
-  await runCommand("ddev", ["wp", "option", "update", "blogdescription", siteTagline ?? ""]);
+  await captureCommand("ddev", ["wp", "option", "update", "blogdescription", siteTagline ?? ""]);
+  log(c.success(siteTagline ? `Added the site tagline: ${siteTagline}` : "Cleared the site tagline."));
 
   if (cleanState) {
     log(c.detail("Cleaning up the default WordPress content..."));
